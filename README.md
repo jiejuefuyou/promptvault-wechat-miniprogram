@@ -1,6 +1,6 @@
 # PromptVault — WeChat Miniprogram
 
-> 113 AI prompts in your WeChat. Offline. Zero data collection. Open source MIT.
+> 100+ AI prompts in your WeChat. Offline. Zero data collection. Open source MIT.
 >
 > 5th surface of the same product. Same `prompts.json` powers iOS / Web / Chrome / VSCode versions.
 
@@ -37,7 +37,7 @@
 ### Step 3: 测试本地运行
 
 在开发者工具里：
-- 看左侧模拟器：应该看到 PromptVault 首页 + 搜索框 + 113 prompts 列表
+- 看左侧模拟器：应该看到 PromptVault 首页 + 搜索框 + 100+ prompts 列表
 - 点任意 prompt → 进入详情页 → 填变量 → 复制
 - 收藏功能：点 "★" 切换
 - 测试搜索 / 标签筛选
@@ -50,14 +50,14 @@
 
 开发者工具点右上角 **上传**：
 - 版本号：1.0.0
-- 项目备注：`Initial release - 113 AI prompts`
+- 项目备注：`Initial release - 100+ AI prompts`
 - 点 "上传"
 
 上传完到[微信公众平台后台](https://mp.weixin.qq.com/) → 版本管理 → 开发版本 → 找到刚上传的 → 点 "提交审核"。
 
 填审核信息：
 - **小程序类目**：工具 / 实用工具
-- **审核备注**：「AI 提示词管理工具，113 条预置 prompt + {{变量}}替换 + 一键复制。完全离线运行，不上传任何用户数据。」
+- **审核备注**：「AI 提示词管理工具，上百条预置 prompt（持续更新） + {{变量}}替换 + 一键复制。完全离线运行，不上传任何用户数据。」
 - **测试账号**：不需要（无登录）
 
 提交后通常 1-3 天审核通过。
@@ -116,7 +116,7 @@ wechat-miniprogram/
 │       ├── detail.wxml
 │       └── detail.wxss
 └── utils/
-    └── prompts.json          # 113 条预置 prompts（与 iOS / Web / Chrome / VSCode 同源）
+    └── prompts.json          # 上百条预置 prompt（持续更新）s（与 iOS / Web / Chrome / VSCode 同源）
 ```
 
 ---

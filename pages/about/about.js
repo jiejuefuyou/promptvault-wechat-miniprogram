@@ -1,10 +1,12 @@
 // pages/about/about.js
+const app = getApp();
+
 Page({
   data: {
-    version: '1.0.7',
-    promptCount: 113,
-    articleCount: 8,
-    surfaces: 5,
+    version: app.globalData.version,
+    promptCount: app.globalData.promptCount,
+    articleCount: app.globalData.articleCount,
+    surfaces: app.globalData.surfaces,
   },
 
   onCopyEmail() {
@@ -26,6 +28,9 @@ Page({
   },
 
   onShareAppMessage() {
-    return { title: 'AI 提示词小抄 — 113 条 + 中文说明 + 完全离线', path: '/pages/index/index' };
+    return {
+      title: 'AI 提示词小抄 — ' + app.globalData.promptCount + ' 条 + 中文说明 + 完全离线',
+      path: '/pages/index/index',
+    };
   },
 });
