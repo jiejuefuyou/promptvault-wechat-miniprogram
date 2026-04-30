@@ -1,0 +1,6 @@
+{
+  "desc": "PromptVault — 113 AI prompts in your pocket. Sitemap allows full microsearch indexing.",
+  "rules": [
+    { "action": "allow", "page": "*" }
+  ]
+}

@@ -1,0 +1,51 @@
+<!-- pages/detail/detail.wxml -->
+<view class="container" wx:if="{{prompt}}">
+
+  <view class="header">
+    <view class="title">{{prompt.title}}</view>
+    <view class="tags">
+      <text wx:for="{{prompt.tags}}" wx:key="*this" class="tag">{{item}}</text>
+    </view>
+  </view>
+
+  <view wx:if="{{variables.length > 0}}" class="vars-section">
+    <view class="section-title">填入变量</view>
+    <view wx:for="{{variables}}" wx:key="key" class="var-row">
+      <view class="var-label">{{item.key}}</view>
+      <textarea
+        class="var-input"
+        placeholder="输入 {{item.key}} 的值"
+        placeholder-class="var-placeholder"
+        value="{{item.value}}"
+        bindinput="onVarInput"
+        data-key="{{item.key}}"
+        auto-height
+      ></textarea>
+    </view>
+  </view>
+
+  <view class="preview-section">
+    <view class="section-title">预览（已替换变量）</view>
+    <view class="preview-body">{{filledBody}}</view>
+  </view>
+
+  <view class="actions">
+    <button class="btn" bindtap="onCopy">📋 复制到剪贴板</button>
+    <button class="btn secondary" bindtap="onWatchAdEnhance" style="margin-top: 16rpx;">
+      🎁 看广告解锁专业版（含 expert prefix）
+    </button>
+    <button
+      class="btn secondary"
+      bindtap="onToggleFavorite"
+      style="margin-top: 16rpx;"
+    >
+      {{isFavorited ? '★ 已收藏' : '☆ 收藏'}}
+    </button>
+  </view>
+
+  <view class="hint muted">
+    💡 这个 prompt 完全在你手机里运行 — 不上传任何内容到服务器。
+    "看广告解锁" 是给愿意支持作者的用户用的，跳过也能正常用基础版。
+  </view>
+
+</view>

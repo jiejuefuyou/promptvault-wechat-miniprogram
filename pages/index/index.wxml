@@ -1,0 +1,85 @@
+<!-- pages/index/index.wxml -->
+<view class="container">
+
+  <view class="header">
+    <view class="title">PromptVault</view>
+    <view class="subtitle muted">113 AI 提示词 · 离线 · 零数据收集</view>
+  </view>
+
+  <view class="search-bar">
+    <input
+      class="search-input"
+      placeholder="搜索 prompt 标题 / 内容 / 标签"
+      placeholder-class="search-placeholder"
+      bindinput="onSearchInput"
+      value="{{keyword}}"
+    />
+  </view>
+
+  <scroll-view scroll-x class="tag-bar" enhanced="{{true}}" show-scrollbar="{{false}}">
+    <view class="tag-list">
+      <view
+        wx:if="{{activeTag}}"
+        class="tag active"
+        bindtap="onClearTag"
+      >× 清除筛选</view>
+      <view
+        wx:for="{{allTags}}"
+        wx:key="*this"
+        class="tag {{activeTag === item ? 'active' : ''}}"
+        bindtap="onTagTap"
+        data-tag="{{item}}"
+      >{{item}}</view>
+    </view>
+  </scroll-view>
+
+  <view class="result-meta muted">
+    {{promptsFiltered.length}} 条 prompt
+    <text wx:if="{{activeTag}}"> · 标签 {{activeTag}}</text>
+    <text wx:if="{{keyword}}"> · 关键词 "{{keyword}}"</text>
+  </view>
+
+  <view class="prompt-list">
+    <view
+      wx:for="{{promptsFiltered}}"
+      wx:key="title"
+      class="card prompt-item"
+      bindtap="onPromptTap"
+      data-idx="{{index}}"
+    >
+      <view class="prompt-title">{{item.title}}</view>
+      <view class="prompt-preview muted">{{item.body}}</view>
+      <view class="prompt-tags">
+        <text
+          wx:for="{{item.tags}}"
+          wx:for-item="t"
+          wx:key="*this"
+          class="tag"
+        >{{t}}</text>
+      </view>
+    </view>
+
+    <view wx:if="{{promptsFiltered.length === 0}}" class="empty muted">
+      没有找到匹配的 prompt。试试其他关键词或清除筛选。
+    </view>
+  </view>
+
+  <view class="footer">
+    <view class="footer-text muted">
+      离线工作 · 不收集任何数据 · MIT 开源
+    </view>
+    <view class="footer-text muted" style="margin-top: 12rpx;">
+      网页版 / iOS / Chrome / VSCode 同源 ·
+      <text decode="{{true}}">jiejuefuyou.github.io</text>
+    </view>
+  </view>
+
+  <!-- Banner 广告位（开通流量主后填 unitId 启用） -->
+  <ad
+    wx:if="{{showBannerAd && bannerAdUnitId}}"
+    unit-id="{{bannerAdUnitId}}"
+    ad-type="banner"
+    ad-theme="black"
+  ></ad>
+
+</view>
