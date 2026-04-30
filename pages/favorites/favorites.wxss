@@ -28,6 +28,12 @@
 .empty-icon { font-size: 80rpx; color: #1f1f2e; }
 .empty-text { font-size: 30rpx; color: #e6e6f0; margin-top: 24rpx; }
 .empty-hint { font-size: 24rpx; margin-top: 12rpx; }
+.empty-action {
+  display: inline-block;
+  margin-top: 32rpx;
+  padding: 16rpx 32rpx;
+  width: auto;
+}
 
 .clear-all { text-align: center; padding: 32rpx 0 16rpx; }
 .clear-btn { font-size: 24rpx; color: #8a8a9a; }

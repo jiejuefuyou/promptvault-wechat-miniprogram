@@ -33,6 +33,10 @@ Page({
     wx.showToast({ title: '已移除', icon: 'none' });
   },
 
+  onGoToAll() {
+    wx.switchTab({ url: '/pages/index/index' });
+  },
+
   onClearAll() {
     wx.showModal({
       title: '清空收藏',

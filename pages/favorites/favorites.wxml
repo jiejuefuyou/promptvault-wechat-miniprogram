@@ -31,7 +31,8 @@
   <view wx:else class="empty">
     <view class="empty-icon">★</view>
     <view class="empty-text">还没收藏任何 prompt</view>
-    <view class="empty-hint muted">在"全部"页面点 "☆" 收藏喜欢的</view>
+    <view class="empty-hint muted">在「全部」tab 每张卡片右上角点 ☆ 即可收藏</view>
+    <view class="empty-action btn" bindtap="onGoToAll">→ 去看全部 prompt</view>
   </view>
 
 </view>

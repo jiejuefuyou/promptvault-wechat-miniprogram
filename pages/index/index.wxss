@@ -62,6 +62,31 @@
 
 .prompt-item {
   position: relative;
+  padding-right: 80rpx; /* 留位置给 ☆ 按钮 */
+}
+
+.prompt-main {
+  /* 让点击主内容区进 detail */
+}
+
+.fav-toggle {
+  position: absolute;
+  top: 16rpx;
+  right: 16rpx;
+  width: 64rpx;
+  height: 64rpx;
+  line-height: 64rpx;
+  text-align: center;
+  font-size: 36rpx;
+  color: #4a4a5a;
+  border-radius: 50%;
+  z-index: 2;
+}
+.fav-toggle.is-fav {
+  color: #ffb547;
+}
+.fav-toggle:active {
+  background: rgba(255, 181, 71, 0.15);
 }
 
 .prompt-title {
