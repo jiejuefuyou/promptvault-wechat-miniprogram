@@ -5,12 +5,14 @@
     "pages/favorites/favorites",
     "pages/custom/custom",
     "pages/detail/detail",
-    "pages/article-detail/article-detail"
+    "pages/article-detail/article-detail",
+    "pages/about/about",
+    "pages/privacy/privacy"
   ],
   "window": {
     "backgroundTextStyle": "dark",
     "navigationBarBackgroundColor": "#0a0a0f",
-    "navigationBarTitleText": "PromptVault",
+    "navigationBarTitleText": "AI 提示词小抄",
     "navigationBarTextStyle": "white",
     "backgroundColor": "#0a0a0f"
   },

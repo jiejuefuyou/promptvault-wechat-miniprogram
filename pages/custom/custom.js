@@ -1,15 +1,44 @@
 // pages/custom/custom.js
+const STARTER_CUSTOM = {
+  title: '示例：我的常用 prompt 模板',
+  body: '我是 [角色]，正在做 [任务]。\n要求：\n1. 用 [语气] 回答\n2. 输出 [格式]\n3. 不要 [限制]\n\n具体内容：\n{{content}}',
+  tags: ['示例', '模板'],
+  desc_zh: '编辑/删除这条，写你自己常用的 prompt 模板',
+  category: 'biz-life',
+  _custom: true,
+  _starter: true,
+};
+
 Page({
   data: {
     customPrompts: [],
     showAddDialog: false,
     newTitle: '',
     newBody: '',
-    newTags: ''   // comma-separated
+    newTags: ''
+  },
+
+  onLoad() {
+    // 首次进来预填 1 条示例（仅一次，storage 标记防重复）
+    if (!wx.getStorageSync('starterCustomSeeded')) {
+      const existing = wx.getStorageSync('customPrompts') || [];
+      if (existing.length === 0) {
+        wx.setStorageSync('customPrompts', [STARTER_CUSTOM]);
+      }
+      wx.setStorageSync('starterCustomSeeded', true);
+    }
   },
 
   onShow() {
     this.setData({ customPrompts: wx.getStorageSync('customPrompts') || [] });
+  },
+
+  onGoAbout() {
+    wx.navigateTo({ url: '/pages/about/about' });
+  },
+
+  onGoPrivacy() {
+    wx.navigateTo({ url: '/pages/privacy/privacy' });
   },
 
   onAddTap() {

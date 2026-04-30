@@ -1,0 +1,82 @@
+<view class="container">
+
+  <view class="hero">
+    <view class="logo">💜</view>
+    <view class="app-name">AI 提示词小抄</view>
+    <view class="app-subtitle muted">PromptVault · v{{version}}</view>
+  </view>
+
+  <view class="stats">
+    <view class="stat-item">
+      <view class="stat-num">{{promptCount}}</view>
+      <view class="stat-label muted">条 prompt</view>
+    </view>
+    <view class="stat-item">
+      <view class="stat-num">{{articleCount}}</view>
+      <view class="stat-label muted">篇文章</view>
+    </view>
+    <view class="stat-item">
+      <view class="stat-num">{{surfaces}}</view>
+      <view class="stat-label muted">个端</view>
+    </view>
+  </view>
+
+  <view class="section">
+    <view class="section-title">这是什么？</view>
+    <view class="section-body">
+      给「天天用 AI 工具」的朋友做的提示词小抄。113 条按场景分类，看完就能用，完全离线 + 不收数据。
+    </view>
+  </view>
+
+  <view class="section">
+    <view class="section-title">5 个端同源</view>
+    <view class="section-body">
+      同一份 prompts 数据跑在 5 个地方：
+      {"\n"}📱 iOS App（等审核）
+      {"\n"}🌐 网页版 LIVE
+      {"\n"}🎨 Chrome 扩展
+      {"\n"}💻 VSCode 扩展
+      {"\n"}💬 本小程序
+    </view>
+  </view>
+
+  <view class="section action-section">
+    <view class="section-title">联系作者</view>
+    <view class="action-row" bindtap="onCopyEmail">
+      <text class="action-icon">📬</text>
+      <view class="action-text">
+        <view class="action-title">邮箱</view>
+        <view class="action-sub muted">jiejuefuyou@gmail.com（点这复制）</view>
+      </view>
+    </view>
+    <view class="action-row" bindtap="onCopyGithub">
+      <text class="action-icon">⭐</text>
+      <view class="action-text">
+        <view class="action-title">GitHub 仓库</view>
+        <view class="action-sub muted">完全开源 MIT，欢迎 star（点这复制）</view>
+      </view>
+    </view>
+    <view class="action-row" bindtap="onGoPrivacy">
+      <text class="action-icon">🔒</text>
+      <view class="action-text">
+        <view class="action-title">隐私说明</view>
+        <view class="action-sub muted">什么都不收集</view>
+      </view>
+      <text class="action-arrow">›</text>
+    </view>
+  </view>
+
+  <view class="section">
+    <view class="section-title">致谢</view>
+    <view class="section-body">
+      113 条 prompt 来自 dev.to / 知乎 / 即刻 / GitHub awesome-list 上各位开发者的分享。我整理 + 翻译 + 加中文说明。
+      {"\n\n"}如果某条 prompt 是你写的，我没标作者：邮件告诉我，立即加上。
+    </view>
+  </view>
+
+  <view class="footer muted">
+    Made with 💜 by jiejuefuyou
+    {"\n"}© 2026 · MIT License
+  </view>
+
+</view>

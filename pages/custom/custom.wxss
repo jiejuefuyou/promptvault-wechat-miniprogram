@@ -19,6 +19,36 @@
 .empty-text { font-size: 30rpx; color: #e6e6f0; margin-top: 24rpx; }
 .empty-hint { font-size: 24rpx; margin-top: 12rpx; }
 
+/* 底部 关于 + 隐私 */
+.footer-links {
+  margin-top: 60rpx;
+  background: #12121a;
+  border: 1rpx solid #1f1f2e;
+  border-radius: 16rpx;
+  overflow: hidden;
+}
+.footer-link {
+  display: flex;
+  align-items: center;
+  padding: 24rpx 24rpx;
+  border-top: 1rpx solid #1f1f2e;
+}
+.footer-link:first-child { border-top: 0; }
+.footer-link:active { background: rgba(108,75,224,0.08); }
+.link-icon {
+  font-size: 32rpx;
+  margin-right: 16rpx;
+}
+.link-text {
+  flex: 1;
+  font-size: 26rpx;
+  color: #e6e6f0;
+}
+.link-arrow {
+  color: #4a4a5a;
+  font-size: 32rpx;
+}
+
 /* Dialog —— 修：更宽 + scroll-view 长内容支持 + 输入框可点 */
 .dialog-mask {
   position: fixed; left: 0; top: 0; right: 0; bottom: 0;

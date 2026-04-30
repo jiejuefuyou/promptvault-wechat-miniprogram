@@ -32,6 +32,20 @@
     <view class="empty-hint muted">用得多的提示词写一遍存这，下次不用再想</view>
   </view>
 
+  <!-- 底部链接区 -->
+  <view wx:if="{{!showAddDialog}}" class="footer-links">
+    <view class="footer-link" bindtap="onGoAbout">
+      <text class="link-icon">💜</text>
+      <text class="link-text">关于这个小程序</text>
+      <text class="link-arrow">›</text>
+    </view>
+    <view class="footer-link" bindtap="onGoPrivacy">
+      <text class="link-icon">🔒</text>
+      <text class="link-text">隐私说明 (我们什么都不收集)</text>
+      <text class="link-arrow">›</text>
+    </view>
+  </view>
+
   <!-- Add dialog -->
   <view wx:if="{{showAddDialog}}" class="dialog-mask" catch:tap="onCancelAdd">
     <view class="dialog" catch:tap="onDialogStop">
