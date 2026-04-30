@@ -1,5 +1,5 @@
 // pages/index/index.js
-const promptsData = require('../../utils/prompts.json');
+const promptsData = require('../../utils/prompts.js');
 
 Page({
   data: {

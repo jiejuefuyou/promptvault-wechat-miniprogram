@@ -1,5 +1,5 @@
 // pages/favorites/favorites.js
-const promptsData = require('../../utils/prompts.json');
+const promptsData = require('../../utils/prompts.js');
 
 Page({
   data: {

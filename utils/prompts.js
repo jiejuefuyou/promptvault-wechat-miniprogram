@@ -1,4 +1,4 @@
-[
+module.exports = [
   {
     "title": "Translate to natural English",
     "body": "Translate the following text into natural, conversational English. Preserve technical terms; rewrite anything that would sound awkward to a native speaker.\n\n{{text}}",
@@ -1001,4 +1001,4 @@
       "AI助手"
     ]
   }
-]
+];
