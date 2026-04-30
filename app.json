@@ -1,6 +1,8 @@
 {
   "pages": [
     "pages/index/index",
+    "pages/favorites/favorites",
+    "pages/custom/custom",
     "pages/detail/detail"
   ],
   "window": {
@@ -9,6 +11,17 @@
     "navigationBarTitleText": "PromptVault",
     "navigationBarTextStyle": "white",
     "backgroundColor": "#0a0a0f"
+  },
+  "tabBar": {
+    "color": "#8a8a9a",
+    "selectedColor": "#9b6cf0",
+    "backgroundColor": "#0a0a0f",
+    "borderStyle": "black",
+    "list": [
+      { "pagePath": "pages/index/index", "text": "全部" },
+      { "pagePath": "pages/favorites/favorites", "text": "收藏" },
+      { "pagePath": "pages/custom/custom", "text": "我的" }
+    ]
   },
   "style": "v2",
   "componentFramework": "glass-easel",

@@ -1,0 +1,75 @@
+<view class="container">
+
+  <view class="header">
+    <view class="title">我的 prompt</view>
+    <view class="subtitle muted">{{customPrompts.length}} 个自定义</view>
+  </view>
+
+  <button class="btn add-btn" bindtap="onAddTap">+ 添加新 prompt</button>
+
+  <view wx:if="{{customPrompts.length > 0}}" class="prompt-list">
+    <view
+      wx:for="{{customPrompts}}"
+      wx:key="title"
+      class="card prompt-item"
+    >
+      <view bindtap="onPromptTap" data-idx="{{index}}">
+        <view class="prompt-title">{{item.title}}</view>
+        <view class="prompt-preview muted">{{item.body}}</view>
+        <view class="prompt-tags">
+          <text wx:for="{{item.tags}}" wx:for-item="t" wx:key="*this" class="tag">{{t}}</text>
+        </view>
+      </view>
+      <view class="card-actions">
+        <text class="del-btn" bindtap="onDelete" data-title="{{item.title}}">🗑 删除</text>
+      </view>
+    </view>
+  </view>
+
+  <view wx:elif="{{!showAddDialog}}" class="empty">
+    <view class="empty-icon">＋</view>
+    <view class="empty-text">还没添加自定义 prompt</view>
+    <view class="empty-hint muted">点上方"+ 添加新 prompt"开始</view>
+  </view>
+
+  <!-- Add dialog -->
+  <view wx:if="{{showAddDialog}}" class="dialog-mask" bindtap="onCancelAdd">
+    <view class="dialog" catchtap="">
+      <view class="dialog-title">添加 prompt</view>
+
+      <view class="field-label">标题</view>
+      <input
+        class="field-input"
+        value="{{newTitle}}"
+        bindinput="onTitleInput"
+        placeholder="例如：'写一个 SwiftUI todo demo'"
+        placeholder-class="placeholder-grey"
+      />
+
+      <view class="field-label">内容（用 {{var}} 表示变量）</view>
+      <textarea
+        class="field-textarea"
+        value="{{newBody}}"
+        bindinput="onBodyInput"
+        placeholder="例如：'用 SwiftUI 写一个 {{platform}} 的 {{feature}} demo，不要外部依赖'"
+        placeholder-class="placeholder-grey"
+        auto-height
+      />
+
+      <view class="field-label">标签（逗号分隔，可选）</view>
+      <input
+        class="field-input"
+        value="{{newTags}}"
+        bindinput="onTagsInput"
+        placeholder="例如：iOS, SwiftUI, Demo"
+        placeholder-class="placeholder-grey"
+      />
+
+      <view class="dialog-actions">
+        <button class="btn secondary" bindtap="onCancelAdd">取消</button>
+        <button class="btn" bindtap="onSavePrompt" style="margin-left: 16rpx;">保存</button>
+      </view>
+    </view>
+  </view>
+
+</view>

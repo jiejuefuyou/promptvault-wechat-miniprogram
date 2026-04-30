@@ -1,0 +1,37 @@
+<view class="container">
+
+  <view class="header">
+    <view class="title">★ 收藏</view>
+    <view class="subtitle muted">{{favorites.length}} 个 prompt</view>
+  </view>
+
+  <view wx:if="{{favorites.length > 0}}" class="prompt-list">
+    <view
+      wx:for="{{favorites}}"
+      wx:key="title"
+      class="card prompt-item"
+    >
+      <view bindtap="onPromptTap" data-idx="{{index}}">
+        <view class="prompt-title">{{item.title}}</view>
+        <view class="prompt-preview muted">{{item.body}}</view>
+        <view class="prompt-tags">
+          <text wx:for="{{item.tags}}" wx:for-item="t" wx:key="*this" class="tag">{{t}}</text>
+        </view>
+      </view>
+      <view class="card-actions">
+        <text class="unfav-btn" bindtap="onUnfavorite" data-title="{{item.title}}">移除</text>
+      </view>
+    </view>
+
+    <view class="clear-all" bindtap="onClearAll">
+      <text class="clear-btn">🗑 清空所有收藏</text>
+    </view>
+  </view>
+
+  <view wx:else class="empty">
+    <view class="empty-icon">★</view>
+    <view class="empty-text">还没收藏任何 prompt</view>
+    <view class="empty-hint muted">在"全部"页面点 "☆" 收藏喜欢的</view>
+  </view>
+
+</view>
