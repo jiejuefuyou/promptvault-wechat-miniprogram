@@ -60,6 +60,21 @@
   font-size: 28rpx;
   line-height: 1.8;
   color: #c0c0d0;
+  margin-bottom: 8rpx;
+}
+
+.surface-list { margin-top: 12rpx; }
+.surface-item {
+  display: flex;
+  align-items: center;
+  padding: 12rpx 0;
+}
+.surface-icon { font-size: 32rpx; width: 60rpx; }
+.surface-text { font-size: 28rpx; color: #c0c0d0; }
+
+.muted-link {
+  color: #9b6cf0;
+  text-decoration: underline;
 }
 
 .action-section {

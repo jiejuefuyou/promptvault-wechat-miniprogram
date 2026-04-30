@@ -22,21 +22,34 @@
   </view>
 
   <view class="section">
-    <view class="section-title">这是什么？</view>
-    <view class="section-body">
-      给「天天用 AI 工具」的朋友做的提示词小抄。113 条按场景分类，看完就能用，完全离线 + 不收数据。
-    </view>
+    <view class="section-title">这是什么</view>
+    <view class="section-body">给「天天用 AI 工具」的朋友做的提示词小抄。按场景分类，看完就能用，完全离线 + 不收数据。</view>
   </view>
 
   <view class="section">
     <view class="section-title">5 个端同源</view>
-    <view class="section-body">
-      同一份 prompts 数据跑在 5 个地方：
-      {"\n"}📱 iOS App（等审核）
-      {"\n"}🌐 网页版 LIVE
-      {"\n"}🎨 Chrome 扩展
-      {"\n"}💻 VSCode 扩展
-      {"\n"}💬 本小程序
+    <view class="section-body">同一份 prompts 数据跑在 5 个地方：</view>
+    <view class="surface-list">
+      <view class="surface-item">
+        <text class="surface-icon">📱</text>
+        <text class="surface-text">iOS App（等审核）</text>
+      </view>
+      <view class="surface-item">
+        <text class="surface-icon">🌐</text>
+        <text class="surface-text">网页版 LIVE</text>
+      </view>
+      <view class="surface-item">
+        <text class="surface-icon">🎨</text>
+        <text class="surface-text">Chrome 扩展</text>
+      </view>
+      <view class="surface-item">
+        <text class="surface-icon">💻</text>
+        <text class="surface-text">VSCode 扩展</text>
+      </view>
+      <view class="surface-item">
+        <text class="surface-icon">💬</text>
+        <text class="surface-text">本小程序</text>
+      </view>
     </view>
   </view>
 
@@ -47,13 +60,6 @@
       <view class="action-text">
         <view class="action-title">邮箱</view>
         <view class="action-sub muted">jiejuefuyou@gmail.com（点这复制）</view>
-      </view>
-    </view>
-    <view class="action-row" bindtap="onCopyGithub">
-      <text class="action-icon">⭐</text>
-      <view class="action-text">
-        <view class="action-title">GitHub 仓库</view>
-        <view class="action-sub muted">完全开源 MIT，欢迎 star（点这复制）</view>
       </view>
     </view>
     <view class="action-row" bindtap="onGoPrivacy">
@@ -68,15 +74,13 @@
 
   <view class="section">
     <view class="section-title">致谢</view>
-    <view class="section-body">
-      113 条 prompt 来自 dev.to / 知乎 / 即刻 / GitHub awesome-list 上各位开发者的分享。我整理 + 翻译 + 加中文说明。
-      {"\n\n"}如果某条 prompt 是你写的，我没标作者：邮件告诉我，立即加上。
-    </view>
+    <view class="section-body">prompts 来自 dev.to / 知乎 / 即刻 上各位开发者的分享。我整理 + 翻译 + 加中文说明。</view>
+    <view class="section-body">如果某条 prompt 是你写的，我没标作者：邮件告诉我，立即加上。</view>
   </view>
 
   <view class="footer muted">
-    Made with 💜 by jiejuefuyou
-    {"\n"}© 2026 · MIT License
+    <view>Made with 💜 by jiejuefuyou</view>
+    <view>© 2026 · MIT License · <text class="muted-link" bindtap="onCopyGithub">查看代码</text></view>
   </view>
 
 </view>

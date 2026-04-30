@@ -11,55 +11,49 @@
   </view>
 
   <view class="section">
-    <view class="section-title">📦 你的数据存哪里？</view>
-    <view class="section-body">
-      所有数据**只在你手机里**（微信本地 wx.storage）：
-      {"\n"}• 收藏的 prompt
-      {"\n"}• 你自己写的 prompt
-      {"\n"}• 搜索历史
-      {"\n"}• 最近用过的记录
-      {"\n\n"}卸载小程序 = 全部清空。我们看不到任何东西。
+    <view class="section-title">📦 你的数据存哪里</view>
+    <view class="section-body">所有数据只在你手机里（微信本地 wx.storage）：</view>
+    <view class="bullets">
+      <view class="bullet">收藏的 prompt</view>
+      <view class="bullet">你自己写的 prompt</view>
+      <view class="bullet">搜索历史</view>
+      <view class="bullet">最近用过的记录</view>
     </view>
+    <view class="section-body strong">卸载小程序 = 全部清空。我们看不到任何东西。</view>
   </view>
 
   <view class="section">
     <view class="section-title">🚫 我们不做这些</view>
-    <view class="section-body">
-      ❌ 不要你的位置 / 相机 / 麦克风权限
-      {"\n"}❌ 不收集你的设备信息 / 微信身份
-      {"\n"}❌ 不会把你输入的内容发给任何服务器
-      {"\n"}❌ 不接第三方 SDK（除微信广告 SDK，仅在你点「看广告升级」时调用）
+    <view class="bullets bullets-x">
+      <view class="bullet">不要你的位置 / 相机 / 麦克风权限</view>
+      <view class="bullet">不收集设备信息 / 微信身份</view>
+      <view class="bullet">不会把你输入的内容发给任何服务器</view>
+      <view class="bullet">不接任何第三方 SDK（除微信广告 SDK，仅在你点「看广告升级」时调用）</view>
     </view>
   </view>
 
   <view class="section">
     <view class="section-title">📺 关于广告</view>
-    <view class="section-body">
-      详情页有「看广告解锁升级版」按钮 — 你**主动点了才会出广告**。
-      {"\n\n"}这个广告由微信平台提供（流量主），数据收集行为受微信隐私协议约束。我们不读取也不转发任何广告相关数据，纯粹是给愿意支持作者的朋友一个选项。
-      {"\n\n"}不点 = 完全不会出现广告。
-    </view>
-  </view>
-
-  <view class="section">
-    <view class="section-title">🆓 完全开源</view>
-    <view class="section-body">
-      代码全部 MIT 开源，自己看 = 不撒谎的最好证明：
-      {"\n\n"}github.com/jiejuefuyou/promptvault-wechat-miniprogram
-    </view>
+    <view class="section-body">详情页有「看广告解锁升级版」按钮——你主动点了才会出广告。</view>
+    <view class="section-body">这个广告由微信平台提供（流量主），数据收集行为受微信隐私协议约束。我们不读取也不转发任何广告相关数据，纯粹是给愿意支持作者的朋友一个选项。</view>
+    <view class="section-body strong">不点 = 完全不会出现广告。</view>
   </view>
 
   <view class="section">
     <view class="section-title">📬 联系我</view>
-    <view class="section-body">
-      有问题 / 建议 / 投诉：
-      {"\n\n"}邮箱: jiejuefuyou@gmail.com
-      {"\n"}回复时长: 通常 24-48 小时
+    <view class="section-body">有问题 / 建议 / 投诉，邮件即可：</view>
+    <view class="contact-row" bindtap="onCopyEmail">
+      <text class="contact-label">📧 邮箱</text>
+      <text class="contact-value">jiejuefuyou@gmail.com</text>
+    </view>
+    <view class="contact-row">
+      <text class="contact-label">⏱ 回复</text>
+      <text class="contact-value-plain">通常 24-48 小时内</text>
     </view>
   </view>
 
-  <view class="footer muted">
-    本说明可能会更新；重大变化会在小程序首次打开时弹窗告诉你。
+  <view class="footer-note muted">
+    本说明可能会更新；重大变化会在小程序首次打开时弹窗告知。
   </view>
 
 </view>
