@@ -1,9 +1,11 @@
 {
   "pages": [
     "pages/index/index",
+    "pages/articles/articles",
     "pages/favorites/favorites",
     "pages/custom/custom",
-    "pages/detail/detail"
+    "pages/detail/detail",
+    "pages/article-detail/article-detail"
   ],
   "window": {
     "backgroundTextStyle": "dark",
@@ -18,7 +20,8 @@
     "backgroundColor": "#0a0a0f",
     "borderStyle": "black",
     "list": [
-      { "pagePath": "pages/index/index", "text": "全部" },
+      { "pagePath": "pages/index/index", "text": "提示词" },
+      { "pagePath": "pages/articles/articles", "text": "要点" },
       { "pagePath": "pages/favorites/favorites", "text": "收藏" },
       { "pagePath": "pages/custom/custom", "text": "我的" }
     ]

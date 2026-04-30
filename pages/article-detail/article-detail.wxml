@@ -1,0 +1,38 @@
+<view class="container" wx:if="{{article}}">
+
+  <view class="header">
+    <view class="meta">
+      <text class="date muted">{{article.date}}</text>
+      <text wx:if="{{article.type === 'newsletter'}}" class="badge newsletter">📰 周报</text>
+      <text wx:elif="{{article.type === 'deep-dive'}}" class="badge deep-dive">🔬 深度</text>
+    </view>
+    <view class="title">{{article.title}}</view>
+    <view class="summary">{{article.summary}}</view>
+    <view class="tags">
+      <text wx:for="{{article.tags}}" wx:key="*this" class="tag">{{item}}</text>
+    </view>
+  </view>
+
+  <view class="article-body">
+    <block wx:for="{{sections}}" wx:key="index" wx:for-item="sec">
+      <view wx:if="{{sec.type === 'h1'}}" class="md-h1">{{sec.content}}</view>
+      <view wx:elif="{{sec.type === 'h2'}}" class="md-h2">{{sec.content}}</view>
+      <view wx:elif="{{sec.type === 'h3'}}" class="md-h3">{{sec.content}}</view>
+      <view wx:elif="{{sec.type === 'p'}}" class="md-p">{{sec.content}}</view>
+      <view wx:elif="{{sec.type === 'quote'}}" class="md-quote">{{sec.content}}</view>
+      <view wx:elif="{{sec.type === 'code'}}" class="md-code">{{sec.content}}</view>
+      <view wx:elif="{{sec.type === 'hr'}}" class="md-hr"></view>
+      <view wx:elif="{{sec.type === 'table-row'}}" class="md-table-row">{{sec.content}}</view>
+    </block>
+  </view>
+
+  <view class="footer">
+    <view class="footer-text muted">
+      ← 返回查看更多文章
+    </view>
+    <view class="footer-text muted" style="margin-top: 8rpx;">
+      新文章每周三早 8 点发布
+    </view>
+  </view>
+
+</view>

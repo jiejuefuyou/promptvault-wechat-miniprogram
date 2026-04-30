@@ -1,0 +1,83 @@
+.container { padding: 24rpx 24rpx 100rpx; }
+
+.header { margin-bottom: 20rpx; }
+.title {
+  font-size: 56rpx;
+  font-weight: 700;
+  background: linear-gradient(135deg, #6c4be0, #c084fc);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.subtitle { font-size: 22rpx; margin-top: 6rpx; }
+
+/* 分类条（复用 index 风格） */
+.cat-bar { margin-bottom: 20rpx; width: 100%; }
+.cat-list { display: inline-flex; padding: 4rpx 0; }
+.cat-item {
+  display: flex; flex-direction: column; align-items: center;
+  padding: 14rpx 22rpx; margin-right: 12rpx;
+  background: #12121a; border: 1rpx solid #1f1f2e; border-radius: 14rpx;
+  min-width: 110rpx; flex-shrink: 0;
+}
+.cat-item.active { background: rgba(108,75,224,0.18); border-color: #6c4be0; }
+.cat-icon { font-size: 36rpx; line-height: 1; }
+.cat-name { font-size: 22rpx; color: #e6e6f0; margin-top: 6rpx; white-space: nowrap; }
+.cat-item.active .cat-name { color: #c084fc; font-weight: 600; }
+
+/* 文章卡 */
+.article-list { margin-top: 8rpx; }
+.article-item { padding: 24rpx; margin-bottom: 16rpx; }
+
+.article-meta {
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+  margin-bottom: 12rpx;
+}
+.article-date { font-size: 22rpx; }
+.article-badge {
+  font-size: 20rpx;
+  padding: 4rpx 12rpx;
+  border-radius: 999rpx;
+  background: #1f1f2e;
+}
+.article-badge.newsletter {
+  background: rgba(255,181,71,0.15);
+  color: #ffb547;
+}
+.article-badge.deep-dive {
+  background: rgba(108,75,224,0.18);
+  color: #c084fc;
+}
+
+.article-title {
+  font-size: 32rpx;
+  font-weight: 700;
+  color: #e6e6f0;
+  line-height: 1.4;
+  margin-bottom: 10rpx;
+}
+
+.article-summary {
+  font-size: 26rpx;
+  line-height: 1.5;
+  margin-bottom: 12rpx;
+}
+
+.article-tags {
+  margin-top: 8rpx;
+}
+
+.empty {
+  text-align: center;
+  padding: 200rpx 0;
+}
+.empty-icon { font-size: 80rpx; line-height: 1; }
+.empty-text { font-size: 28rpx; color: #8a8a9a; margin-top: 16rpx; }
+
+.footer {
+  margin-top: 60rpx;
+  text-align: center;
+}
+.footer-text { font-size: 22rpx; }
