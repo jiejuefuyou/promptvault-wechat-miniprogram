@@ -112,7 +112,7 @@ Page({
   onClearSearchHistory() {
     wx.setStorageSync('searchHistory', []);
     this.setData({ searchHistory: [] });
-    wx.showToast({ title: '已清空', icon: 'none' });
+    wx.showToast({ title: '清空啦 🧹', icon: 'none' });
   },
 
   // === 排序 ===
@@ -207,7 +207,7 @@ Page({
     if (isFav) delete favoriteSet[title]; else favoriteSet[title] = true;
     this.setData({ favoriteSet });
 
-    wx.showToast({ title: isFav ? '已取消' : '★ 已收藏', icon: 'none', duration: 800 });
+    wx.showToast({ title: isFav ? '溜了 👋' : '★ 收下啦！', icon: 'none', duration: 800 });
   },
 
   // === 进入 detail ===

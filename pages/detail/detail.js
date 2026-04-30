@@ -65,7 +65,7 @@ Page({
     wx.setClipboardData({
       data: this.data.filledBody,
       success: () => {
-        wx.showToast({ title: '✅ 已复制', icon: 'none' });
+        wx.showToast({ title: '📋 复制好了，去用吧！', icon: 'none' });
       }
     });
   },
@@ -88,7 +88,7 @@ Page({
       if (res && res.isEnded) {
         this.applyEnhancement();
       } else {
-        wx.showToast({ title: '需要看完才能解锁', icon: 'none' });
+        wx.showToast({ title: '🎬 看完才有升级版哦', icon: 'none' });
       }
     });
   },
@@ -100,7 +100,7 @@ Page({
       return;
     }
     if (!this.rewardedAd) {
-      wx.showToast({ title: '广告加载中', icon: 'none' });
+      wx.showToast({ title: '⏳ 广告还在加载', icon: 'none' });
       return;
     }
     this.rewardedAd.show().catch(() => {
@@ -117,9 +117,10 @@ Page({
       data: enhanced,
       success: () => {
         wx.showModal({
-          title: '🎁 专业版 prompt 已复制',
-          content: '已加入 expert system prompt + 主动澄清要求。粘贴到 ChatGPT / Claude 即可。',
-          showCancel: false
+          title: '🎁 升级版搞定！',
+          content: '加了专家口吻 + 不懂会主动问你，粘贴到 ChatGPT/Claude 试试',
+          showCancel: false,
+          confirmText: '好嘞'
         });
       }
     });
@@ -135,7 +136,7 @@ Page({
     wx.setStorageSync('favorites', favorites);
     this.setData({ isFavorited: !this.data.isFavorited });
     wx.showToast({
-      title: this.data.isFavorited ? '已收藏' : '已取消',
+      title: this.data.isFavorited ? '★ 收下啦！' : '溜了 👋',
       icon: 'none'
     });
   },

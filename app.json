@@ -20,10 +20,10 @@
     "backgroundColor": "#0a0a0f",
     "borderStyle": "black",
     "list": [
-      { "pagePath": "pages/index/index", "text": "提示词" },
-      { "pagePath": "pages/articles/articles", "text": "要点" },
-      { "pagePath": "pages/favorites/favorites", "text": "收藏" },
-      { "pagePath": "pages/custom/custom", "text": "我的" }
+      { "pagePath": "pages/index/index", "text": "速查" },
+      { "pagePath": "pages/articles/articles", "text": "新鲜事" },
+      { "pagePath": "pages/favorites/favorites", "text": "最爱" },
+      { "pagePath": "pages/custom/custom", "text": "我自己" }
     ]
   },
   "style": "v2",

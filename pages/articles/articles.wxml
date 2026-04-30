@@ -1,8 +1,8 @@
 <view class="container">
 
   <view class="header">
-    <view class="title">AI 要点</view>
-    <view class="subtitle muted">{{articles.length}} 篇精选 · 行业周报 + 独立开发实战</view>
+    <view class="title">AI 新鲜事 ☕</view>
+    <view class="subtitle muted">{{articles.length}} 篇看完不亏 · 喝杯咖啡的功夫</view>
   </view>
 
   <!-- 分类条 -->
@@ -33,7 +33,7 @@
       <view class="article-meta">
         <text class="article-date muted">{{item.date}}</text>
         <text wx:if="{{item.type === 'newsletter'}}" class="article-badge newsletter">📰 周报</text>
-        <text wx:elif="{{item.type === 'deep-dive'}}" class="article-badge deep-dive">🔬 深度</text>
+        <text wx:elif="{{item.type === 'deep-dive'}}" class="article-badge deep-dive">💡 干货</text>
       </view>
       <view class="article-title">{{item.title}}</view>
       <view class="article-summary muted">{{item.summary}}</view>
@@ -44,16 +44,16 @@
 
     <view wx:if="{{filtered.length === 0}}" class="empty">
       <view class="empty-icon">📭</view>
-      <view class="empty-text">这个分类下暂无文章</view>
+      <view class="empty-text">这分类还没货呢～</view>
     </view>
   </view>
 
   <view class="footer">
     <view class="footer-text muted">
-      新文章每周三早 8 点（北京时间）发送
+      🗓 每周三早 8 点更新一条新鲜事
     </view>
     <view class="footer-text muted" style="margin-top: 8rpx;">
-      网页版 + Substack 订阅: jiejuefuyou.github.io
+      想看完整版？jiejuefuyou.github.io 接邮件
     </view>
   </view>
 

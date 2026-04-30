@@ -30,7 +30,7 @@ Page({
     this.setData({
       favorites: this.data.favorites.filter(p => p.title !== title)
     });
-    wx.showToast({ title: '已移除', icon: 'none' });
+    wx.showToast({ title: '溜了 👋', icon: 'none' });
   },
 
   onGoToAll() {
@@ -39,13 +39,15 @@ Page({
 
   onClearAll() {
     wx.showModal({
-      title: '清空收藏',
-      content: '确定移除所有收藏？',
+      title: '真的全部清掉？',
+      content: '收藏的小可爱们就再见了哦 😢',
+      confirmText: '清掉',
+      cancelText: '再想想',
       success: res => {
         if (res.confirm) {
           wx.setStorageSync('favorites', []);
           this.setData({ favorites: [] });
-          wx.showToast({ title: '已清空', icon: 'none' });
+          wx.showToast({ title: '清空啦 🧹', icon: 'none' });
         }
       }
     });

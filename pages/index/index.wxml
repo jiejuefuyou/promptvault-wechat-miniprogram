@@ -2,8 +2,8 @@
 
   <!-- Header -->
   <view class="header">
-    <view class="title">PromptVault</view>
-    <view class="subtitle muted">{{promptsAll.length}} 条 AI 提示词 · 离线 · 零数据</view>
+    <view class="title">提示词速查 ✨</view>
+    <view class="subtitle muted">{{promptsAll.length}} 条 AI 提示词揣兜里，看完就能用</view>
   </view>
 
   <!-- 搜索框 -->
@@ -144,20 +144,20 @@
     </view>
 
     <view wx:if="{{promptsFiltered.length === 0}}" class="empty muted">
-      <view style="font-size: 60rpx; color: #1f1f2e; line-height: 1; margin-bottom: 16rpx;">∅</view>
-      <view>没找到匹配的 prompt</view>
-      <view class="empty-hint" style="margin-top: 12rpx; font-size: 22rpx;">试试其他关键词，或</view>
-      <view class="empty-action" bindtap="onClearAll" style="display: inline-block; margin-top: 16rpx; padding: 12rpx 24rpx; background: #6c4be0; color: white; border-radius: 8rpx;">清除所有筛选</view>
+      <view style="font-size: 80rpx; line-height: 1; margin-bottom: 16rpx;">🤔</view>
+      <view>这个角落空空的呢</view>
+      <view class="empty-hint" style="margin-top: 12rpx; font-size: 22rpx;">换个关键词试试看？</view>
+      <view class="empty-action" bindtap="onClearAll" style="display: inline-block; margin-top: 20rpx; padding: 14rpx 28rpx; background: #6c4be0; color: white; border-radius: 10rpx;">回到首页 →</view>
     </view>
   </view>
 
   <!-- Footer -->
   <view class="footer">
     <view class="footer-text muted">
-      离线工作 · 不收集任何数据 · MIT 开源
+      🔒 完全离线，你输入的内容不会发任何地方
     </view>
     <view class="footer-text muted" style="margin-top: 12rpx;">
-      iOS / 网页版 / Chrome / VSCode 同源 · jiejuefuyou.github.io
+      还有 iOS / 网页 / Chrome / VSCode 4 个版本 ↗ jiejuefuyou.github.io
     </view>
   </view>
 

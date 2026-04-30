@@ -10,12 +10,12 @@
   </view>
 
   <view wx:if="{{variables.length > 0}}" class="vars-section">
-    <view class="section-title">填入变量</view>
+    <view class="section-title">填一下这些 ✏️</view>
     <view wx:for="{{variables}}" wx:key="key" class="var-row">
       <view class="var-label">{{item.key}}</view>
       <textarea
         class="var-input"
-        placeholder="输入 {{item.key}} 的值"
+        placeholder="把 {{item.key}} 写在这里"
         placeholder-class="var-placeholder"
         value="{{item.value}}"
         bindinput="onVarInput"
@@ -26,27 +26,27 @@
   </view>
 
   <view class="preview-section">
-    <view class="section-title">预览（已替换变量）</view>
+    <view class="section-title">最终长这样 👇</view>
     <view class="preview-body">{{filledBody}}</view>
   </view>
 
   <view class="actions">
-    <button class="btn" bindtap="onCopy">📋 复制到剪贴板</button>
+    <button class="btn" bindtap="onCopy">📋 一键复制</button>
     <button class="btn secondary" bindtap="onWatchAdEnhance" style="margin-top: 16rpx;">
-      🎁 看广告解锁专业版（含 expert prefix）
+      🎁 看个广告，给你升级版（专家口吻）
     </button>
     <button
       class="btn secondary"
       bindtap="onToggleFavorite"
       style="margin-top: 16rpx;"
     >
-      {{isFavorited ? '★ 已收藏' : '☆ 收藏'}}
+      {{isFavorited ? '★ 已经存起来了' : '☆ 收藏这条'}}
     </button>
   </view>
 
   <view class="hint muted">
-    💡 这个 prompt 完全在你手机里运行 — 不上传任何内容到服务器。
-    "看广告解锁" 是给愿意支持作者的用户用的，跳过也能正常用基础版。
+    💡 这条 prompt 完全在你手机里运行，输入啥不上传任何地方。
+    "看广告升级版" 是给想支持作者的朋友用的，跳过也完全够用。
   </view>
 
 </view>

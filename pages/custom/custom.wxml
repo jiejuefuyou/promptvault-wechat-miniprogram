@@ -1,11 +1,11 @@
 <view class="container">
 
   <view class="header">
-    <view class="title">我的 prompt</view>
-    <view class="subtitle muted">{{customPrompts.length}} 个自定义</view>
+    <view class="title">我自己的 prompt ✏️</view>
+    <view class="subtitle muted">攒了 {{customPrompts.length}} 个，加更多走起</view>
   </view>
 
-  <button class="btn add-btn" bindtap="onAddTap">+ 添加新 prompt</button>
+  <button class="btn add-btn" bindtap="onAddTap">+ 加一条新的 prompt</button>
 
   <view wx:if="{{customPrompts.length > 0}}" class="prompt-list">
     <view
@@ -27,53 +27,53 @@
   </view>
 
   <view wx:elif="{{!showAddDialog}}" class="empty">
-    <view class="empty-icon">＋</view>
-    <view class="empty-text">还没添加自定义 prompt</view>
-    <view class="empty-hint muted">点上方按钮开始添加</view>
+    <view class="empty-icon">📝</view>
+    <view class="empty-text">还没攒过自己的 prompt</view>
+    <view class="empty-hint muted">用得多的提示词写一遍存这，下次不用再想</view>
   </view>
 
   <!-- Add dialog -->
   <view wx:if="{{showAddDialog}}" class="dialog-mask" catch:tap="onCancelAdd">
     <view class="dialog" catch:tap="onDialogStop">
-      <view class="dialog-title">添加 prompt</view>
+      <view class="dialog-title">写一条新 prompt ✏️</view>
 
       <scroll-view scroll-y class="dialog-scroll">
-        <view class="field-label">标题 *</view>
+        <view class="field-label">起个名 *</view>
         <input
           class="field-input"
           value="{{newTitle}}"
           bindinput="onTitleInput"
-          placeholder="例：写一个 SwiftUI todo demo"
+          placeholder="比如：写 SwiftUI todo demo"
           placeholder-class="placeholder-grey"
           confirm-type="next"
         />
 
-        <view class="field-label">内容 * (用花括号变量名表示变量)</view>
+        <view class="field-label">prompt 内容 *</view>
         <textarea
           class="field-textarea"
           value="{{newBody}}"
           bindinput="onBodyInput"
-          placeholder="例：用 SwiftUI 写一个 [platform] 的 [feature] demo，不要外部依赖"
+          placeholder="比如：用 SwiftUI 写一个 [platform] 的 [feature] demo，不要外部依赖"
           placeholder-class="placeholder-grey"
           auto-height
           maxlength="-1"
           show-confirm-bar="{{false}}"
         />
-        <view class="field-hint muted">变量格式: 双花括号包裹变量名 (示例 placeholder 用 [] 避免解析冲突)</view>
+        <view class="field-hint muted">💡 想留空让用户填？用双花括号包变量名，比如 platform、feature</view>
 
-        <view class="field-label">标签 (逗号分隔, 可选)</view>
+        <view class="field-label">贴标签 (可不填)</view>
         <input
           class="field-input"
           value="{{newTags}}"
           bindinput="onTagsInput"
-          placeholder="例：iOS, SwiftUI, Demo"
+          placeholder="比如：iOS, SwiftUI, Demo"
           placeholder-class="placeholder-grey"
         />
       </scroll-view>
 
       <view class="dialog-actions">
-        <view class="dialog-btn secondary" catch:tap="onCancelAdd">取消</view>
-        <view class="dialog-btn" catch:tap="onSavePrompt">保存</view>
+        <view class="dialog-btn secondary" catch:tap="onCancelAdd">不存了</view>
+        <view class="dialog-btn" catch:tap="onSavePrompt">存下！</view>
       </view>
     </view>
   </view>

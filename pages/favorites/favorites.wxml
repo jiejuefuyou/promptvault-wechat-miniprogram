@@ -1,8 +1,8 @@
 <view class="container">
 
   <view class="header">
-    <view class="title">★ 收藏</view>
-    <view class="subtitle muted">{{favorites.length}} 个 prompt</view>
+    <view class="title">★ 我的最爱</view>
+    <view class="subtitle muted">收了 {{favorites.length}} 个，要常用噢</view>
   </view>
 
   <view wx:if="{{favorites.length > 0}}" class="prompt-list">
@@ -25,15 +25,15 @@
     </view>
 
     <view class="clear-all" bindtap="onClearAll">
-      <text class="clear-btn">🗑 清空所有收藏</text>
+      <text class="clear-btn">🧹 全部清掉</text>
     </view>
   </view>
 
   <view wx:else class="empty">
-    <view class="empty-icon">★</view>
-    <view class="empty-text">还没收藏任何 prompt</view>
-    <view class="empty-hint muted">在「全部」tab 每张卡片右上角点 ☆ 即可收藏</view>
-    <view class="empty-action btn" bindtap="onGoToAll">→ 去看全部 prompt</view>
+    <view class="empty-icon">💝</view>
+    <view class="empty-text">这里还空着呢～</view>
+    <view class="empty-hint muted">去「速查」tab 看见喜欢的，点右上角 ☆ 收下</view>
+    <view class="empty-action btn" bindtap="onGoToAll">逛逛去 →</view>
   </view>
 
 </view>

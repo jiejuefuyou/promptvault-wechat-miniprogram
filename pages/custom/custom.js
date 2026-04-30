@@ -32,7 +32,7 @@ Page({
   onSavePrompt() {
     const { newTitle, newBody, newTags } = this.data;
     if (!newTitle.trim() || !newBody.trim()) {
-      wx.showToast({ title: '标题 + 内容必填', icon: 'none' });
+      wx.showToast({ title: '🤔 名字和内容都填一下嘛', icon: 'none' });
       return;
     }
     const tags = newTags.split(/[,，]/).map(t => t.trim()).filter(Boolean);
@@ -46,7 +46,7 @@ Page({
     customPrompts.unshift(prompt);
     wx.setStorageSync('customPrompts', customPrompts);
     this.setData({ customPrompts, showAddDialog: false });
-    wx.showToast({ title: '已添加', icon: 'success' });
+    wx.showToast({ title: '存好啦 🎉', icon: 'success' });
   },
 
   onPromptTap(e) {
@@ -58,15 +58,17 @@ Page({
   onDelete(e) {
     const title = e.currentTarget.dataset.title;
     wx.showModal({
-      title: '删除',
-      content: `删除 "${title}"？`,
+      title: '不要这条了？',
+      content: `"${title}" 真的删掉？`,
+      confirmText: '删',
+      cancelText: '留着',
       success: res => {
         if (res.confirm) {
           let customPrompts = wx.getStorageSync('customPrompts') || [];
           customPrompts = customPrompts.filter(p => p.title !== title);
           wx.setStorageSync('customPrompts', customPrompts);
           this.setData({ customPrompts });
-          wx.showToast({ title: '已删除', icon: 'none' });
+          wx.showToast({ title: '溜了 👋', icon: 'none' });
         }
       }
     });
