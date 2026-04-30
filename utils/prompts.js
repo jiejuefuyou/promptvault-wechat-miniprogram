@@ -7,7 +7,8 @@ module.exports = [
       "Translation",
       "ChatGPT"
     ],
-    "desc_zh": "把英文段落改写成自然口语化英文，适合给 native speaker 看"
+    "desc_zh": "把英文段落改写成自然口语化英文，适合给 native speaker 看",
+    "category": "content"
   },
   {
     "title": "翻译成简体中文",
@@ -16,7 +17,8 @@ module.exports = [
       "翻译",
       "Translation"
     ],
-    "desc_zh": "把英文/混合内容翻译成口语化中文，保留专业术语"
+    "desc_zh": "把英文/混合内容翻译成口语化中文，保留专业术语",
+    "category": "content"
   },
   {
     "title": "Summarize a long article in 5 bullets",
@@ -25,7 +27,8 @@ module.exports = [
       "总结",
       "Summarize"
     ],
-    "desc_zh": "把长文章压缩成 5 个要点 + 1 句总结"
+    "desc_zh": "把长文章压缩成 5 个要点 + 1 句总结",
+    "category": "content"
   },
   {
     "title": "Explain code in plain English",
@@ -35,7 +38,8 @@ module.exports = [
       "Coding",
       "Cursor"
     ],
-    "desc_zh": "逐行用大白话解释代码，并指出隐藏 bug"
+    "desc_zh": "逐行用大白话解释代码，并指出隐藏 bug",
+    "category": "ai-coding"
   },
   {
     "title": "Refactor for readability",
@@ -46,7 +50,8 @@ module.exports = [
       "Cursor",
       "Claude Code"
     ],
-    "desc_zh": "重构代码提高可读性，行为不变，输出新代码"
+    "desc_zh": "重构代码提高可读性，行为不变，输出新代码",
+    "category": "ai-coding"
   },
   {
     "title": "Write a unit test for this function",
@@ -56,7 +61,8 @@ module.exports = [
       "Coding",
       "Testing"
     ],
-    "desc_zh": "为函数写单测：正常路径 + 2 边界 + 1 错误"
+    "desc_zh": "为函数写单测：正常路径 + 2 边界 + 1 错误",
+    "category": "ai-coding"
   },
   {
     "title": "Code review like a senior",
@@ -66,7 +72,8 @@ module.exports = [
       "Coding",
       "Code Review"
     ],
-    "desc_zh": "用资深工程师视角做 code review，指出真问题"
+    "desc_zh": "用资深工程师视角做 code review，指出真问题",
+    "category": "ai-coding"
   },
   {
     "title": "AI 绘画提示词（中文 → SD/Midjourney）",
@@ -77,7 +84,8 @@ module.exports = [
       "Midjourney",
       "SD"
     ],
-    "desc_zh": "中文需求 → SD/Midjourney 出图英文 prompt"
+    "desc_zh": "中文需求 → SD/Midjourney 出图英文 prompt",
+    "category": "ai-art"
   },
   {
     "title": "ComfyUI workflow troubleshoot",
@@ -87,7 +95,8 @@ module.exports = [
       "ComfyUI",
       "Image-Gen"
     ],
-    "desc_zh": "ComfyUI 工作流报错排查模板"
+    "desc_zh": "ComfyUI 工作流报错排查模板",
+    "category": "ai-art"
   },
   {
     "title": "拍摄文案 → 短视频脚本",
@@ -97,7 +106,8 @@ module.exports = [
       "Script",
       "AI视频"
     ],
-    "desc_zh": "拍摄文案 → 短视频脚本（含分镜 + 字幕）"
+    "desc_zh": "拍摄文案 → 短视频脚本（含分镜 + 字幕）",
+    "category": "ai-video"
   },
   {
     "title": "DeepSeek / Claude 系统提示词模板",
@@ -108,7 +118,8 @@ module.exports = [
       "DeepSeek",
       "Claude"
     ],
-    "desc_zh": "DeepSeek/Claude 通用 system prompt 起手模板"
+    "desc_zh": "DeepSeek/Claude 通用 system prompt 起手模板",
+    "category": "ai-coding"
   },
   {
     "title": "邮件起草（专业语气）",
@@ -118,7 +129,8 @@ module.exports = [
       "Email",
       "Writing"
     ],
-    "desc_zh": "起草专业语气英文邮件"
+    "desc_zh": "起草专业语气英文邮件",
+    "category": "work"
   },
   {
     "title": "邮件起草（中文商务）",
@@ -128,7 +140,8 @@ module.exports = [
       "Email",
       "Writing"
     ],
-    "desc_zh": "起草中文商务邮件（合规、得体）"
+    "desc_zh": "起草中文商务邮件（合规、得体）",
+    "category": "work"
   },
   {
     "title": "Brainstorm 10 angles",
@@ -138,7 +151,8 @@ module.exports = [
       "Brainstorm",
       "Writing"
     ],
-    "desc_zh": "围绕一个 idea 头脑风暴 10 个不同角度"
+    "desc_zh": "围绕一个 idea 头脑风暴 10 个不同角度",
+    "category": "work"
   },
   {
     "title": "Job description → resume bullets",
@@ -148,7 +162,8 @@ module.exports = [
       "Resume",
       "Career"
     ],
-    "desc_zh": "JD 描述 → resume 简历要点（量化）"
+    "desc_zh": "JD 描述 → resume 简历要点（量化）",
+    "category": "biz-life"
   },
   {
     "title": "面试官提问准备",
@@ -158,7 +173,8 @@ module.exports = [
       "面试",
       "Career"
     ],
-    "desc_zh": "面试官视角生成可能问到的问题"
+    "desc_zh": "面试官视角生成可能问到的问题",
+    "category": "biz-life"
   },
   {
     "title": "Daily standup helper",
@@ -168,7 +184,8 @@ module.exports = [
       "Productivity",
       "Work"
     ],
-    "desc_zh": "晨会站会 helper：今天做啥/昨天做了啥"
+    "desc_zh": "晨会站会 helper：今天做啥/昨天做了啥",
+    "category": "work"
   },
   {
     "title": "周报生成（基于 git log）",
@@ -178,7 +195,8 @@ module.exports = [
       "周报",
       "Work"
     ],
-    "desc_zh": "基于 git log 自动生成周报（中文）"
+    "desc_zh": "基于 git log 自动生成周报（中文）",
+    "category": "work"
   },
   {
     "title": "OKR 拆解",
@@ -188,7 +206,8 @@ module.exports = [
       "OKR",
       "Work"
     ],
-    "desc_zh": "把模糊目标拆成 OKR（O + 3 KR）"
+    "desc_zh": "把模糊目标拆成 OKR（O + 3 KR）",
+    "category": "work"
   },
   {
     "title": "决策框架（Pros/Cons + 推荐）",
@@ -198,7 +217,8 @@ module.exports = [
       "Decision",
       "Productivity"
     ],
-    "desc_zh": "Pros/Cons + 推荐 + 决策依据 完整决策框架"
+    "desc_zh": "Pros/Cons + 推荐 + 决策依据 完整决策框架",
+    "category": "work"
   },
   {
     "title": "ELI5 — explain like I'm 5",
@@ -207,7 +227,8 @@ module.exports = [
       "学习",
       "Learning"
     ],
-    "desc_zh": "用 5 岁小孩能懂的方式解释复杂概念"
+    "desc_zh": "用 5 岁小孩能懂的方式解释复杂概念",
+    "category": "learn"
   },
   {
     "title": "Feynman 学习法",
@@ -216,7 +237,8 @@ module.exports = [
       "学习",
       "Feynman"
     ],
-    "desc_zh": "Feynman 学习法：用自己的话教一遍"
+    "desc_zh": "Feynman 学习法：用自己的话教一遍",
+    "category": "learn"
   },
   {
     "title": "PDF / 长文 chunked 总结",
@@ -226,7 +248,8 @@ module.exports = [
       "Summarize",
       "Reading"
     ],
-    "desc_zh": "把长 PDF / 长文分块总结，最后合并"
+    "desc_zh": "把长 PDF / 长文分块总结，最后合并",
+    "category": "learn"
   },
   {
     "title": "对比同类产品",
@@ -235,7 +258,8 @@ module.exports = [
       "调研",
       "Research"
     ],
-    "desc_zh": "对比 N 个同类产品的优缺点 + 推荐场景"
+    "desc_zh": "对比 N 个同类产品的优缺点 + 推荐场景",
+    "category": "biz-life"
   },
   {
     "title": "App Store description 优化",
@@ -245,7 +269,8 @@ module.exports = [
       "App Store",
       "Marketing"
     ],
-    "desc_zh": "App Store 描述按 ASO 规则优化"
+    "desc_zh": "App Store 描述按 ASO 规则优化",
+    "category": "biz-life"
   },
   {
     "title": "ASO keyword research",
@@ -254,7 +279,8 @@ module.exports = [
       "ASO",
       "App Store"
     ],
-    "desc_zh": "ASO 关键词调研：竞品 + 长尾词挖掘"
+    "desc_zh": "ASO 关键词调研：竞品 + 长尾词挖掘",
+    "category": "biz-life"
   },
   {
     "title": "Reddit Show & Tell post",
@@ -264,7 +290,8 @@ module.exports = [
       "Reddit",
       "Launch"
     ],
-    "desc_zh": "Reddit 'Show & Tell' 帖子套路（不被 ban）"
+    "desc_zh": "Reddit 'Show & Tell' 帖子套路（不被 ban）",
+    "category": "content"
   },
   {
     "title": "Twitter/X thread builder",
@@ -274,7 +301,8 @@ module.exports = [
       "Twitter",
       "Writing"
     ],
-    "desc_zh": "Twitter/X thread 8-10 条结构化内容"
+    "desc_zh": "Twitter/X thread 8-10 条结构化内容",
+    "category": "content"
   },
   {
     "title": "Product Hunt 文案",
@@ -284,7 +312,8 @@ module.exports = [
       "Product Hunt",
       "Launch"
     ],
-    "desc_zh": "Product Hunt launch 文案（标题+描述+评论）"
+    "desc_zh": "Product Hunt launch 文案（标题+描述+评论）",
+    "category": "content"
   },
   {
     "title": "Coze / Dify 智能体 prompt 骨架",
@@ -295,7 +324,8 @@ module.exports = [
       "Dify",
       "智能体"
     ],
-    "desc_zh": "Coze/Dify 智能体 system prompt 起手骨架"
+    "desc_zh": "Coze/Dify 智能体 system prompt 起手骨架",
+    "category": "agent"
   },
   {
     "title": "Claude Code 项目根 system prompt",
@@ -305,7 +335,8 @@ module.exports = [
       "Coding-Agent",
       "System Prompt"
     ],
-    "desc_zh": "Claude Code 项目根 system prompt（决定 agent 风格）"
+    "desc_zh": "Claude Code 项目根 system prompt（决定 agent 风格）",
+    "category": "ai-coding"
   },
   {
     "title": "Claude Code 修 bug 输入模板",
@@ -315,7 +346,8 @@ module.exports = [
       "Coding-Agent",
       "Debug"
     ],
-    "desc_zh": "Claude Code 修 bug 标准输入模板（含上下文）"
+    "desc_zh": "Claude Code 修 bug 标准输入模板（含上下文）",
+    "category": "ai-coding"
   },
   {
     "title": "Cursor / Claude Code 实施新功能",
@@ -325,7 +357,8 @@ module.exports = [
       "Cursor",
       "Coding-Agent"
     ],
-    "desc_zh": "Cursor / Claude Code 实施新功能的标准模板"
+    "desc_zh": "Cursor / Claude Code 实施新功能的标准模板",
+    "category": "ai-coding"
   },
   {
     "title": "Code review (senior peer)",
@@ -334,7 +367,8 @@ module.exports = [
       "Coding-Agent",
       "Code Review"
     ],
-    "desc_zh": "Senior peer 视角的代码审查（找设计 + 边界 bug）"
+    "desc_zh": "Senior peer 视角的代码审查（找设计 + 边界 bug）",
+    "category": "ai-coding"
   },
   {
     "title": "Claude Code skill: changelog from git log",
@@ -344,7 +378,8 @@ module.exports = [
       "Coding-Agent",
       "Release"
     ],
-    "desc_zh": "Claude Code skill: 从 git log 自动生成 changelog"
+    "desc_zh": "Claude Code skill: 从 git log 自动生成 changelog",
+    "category": "ai-coding"
   },
   {
     "title": "Cursor 项目记忆 .cursorrules",
@@ -353,7 +388,8 @@ module.exports = [
       "Cursor",
       "Coding-Agent"
     ],
-    "desc_zh": "Cursor 项目 .cursorrules 起手模板"
+    "desc_zh": "Cursor 项目 .cursorrules 起手模板",
+    "category": "ai-coding"
   },
   {
     "title": "Gemini Antigravity 工作流模板",
@@ -362,7 +398,8 @@ module.exports = [
       "Gemini",
       "Coding-Agent"
     ],
-    "desc_zh": "Gemini Antigravity 工作流起手模板"
+    "desc_zh": "Gemini Antigravity 工作流起手模板",
+    "category": "agent"
   },
   {
     "title": "Nano Banana 人物换装",
@@ -372,7 +409,8 @@ module.exports = [
       "Image-Gen",
       "Gemini"
     ],
-    "desc_zh": "Nano Banana 人物换装 prompt（保持脸型）"
+    "desc_zh": "Nano Banana 人物换装 prompt（保持脸型）",
+    "category": "ai-art"
   },
   {
     "title": "Nano Banana 多图融合（背景换人）",
@@ -382,7 +420,8 @@ module.exports = [
       "Image-Gen",
       "Gemini"
     ],
-    "desc_zh": "Nano Banana 多图融合（背景换人）"
+    "desc_zh": "Nano Banana 多图融合（背景换人）",
+    "category": "ai-art"
   },
   {
     "title": "Nano Banana 产品摄影",
@@ -392,7 +431,8 @@ module.exports = [
       "Image-Gen",
       "产品摄影"
     ],
-    "desc_zh": "Nano Banana 产品摄影 prompt（电商风格）"
+    "desc_zh": "Nano Banana 产品摄影 prompt（电商风格）",
+    "category": "ai-art"
   },
   {
     "title": "ComfyUI 工作流复用 brief",
@@ -401,7 +441,8 @@ module.exports = [
       "ComfyUI",
       "Image-Gen"
     ],
-    "desc_zh": "ComfyUI 工作流文档化 + 复用 brief"
+    "desc_zh": "ComfyUI 工作流文档化 + 复用 brief",
+    "category": "ai-art"
   },
   {
     "title": "AI 出图反推 prompt（图→词）",
@@ -412,7 +453,8 @@ module.exports = [
       "SD",
       "Midjourney"
     ],
-    "desc_zh": "图片反推 prompt（图 → 文字描述）"
+    "desc_zh": "图片反推 prompt（图 → 文字描述）",
+    "category": "ai-art"
   },
   {
     "title": "Coze 智能体 system prompt 起手",
@@ -423,7 +465,8 @@ module.exports = [
       "智能体",
       "Dify"
     ],
-    "desc_zh": "Coze 智能体起手 system prompt（含工具调用）"
+    "desc_zh": "Coze 智能体起手 system prompt（含工具调用）",
+    "category": "agent"
   },
   {
     "title": "Dify 工作流 RAG agent prompt",
@@ -433,7 +476,8 @@ module.exports = [
       "Agent",
       "RAG"
     ],
-    "desc_zh": "Dify 工作流 + RAG 检索增强 agent prompt"
+    "desc_zh": "Dify 工作流 + RAG 检索增强 agent prompt",
+    "category": "agent"
   },
   {
     "title": "n8n + LLM 自动化提示词",
@@ -443,7 +487,8 @@ module.exports = [
       "Agent",
       "Automation"
     ],
-    "desc_zh": "n8n + LLM 工作流自动化 prompt 模板"
+    "desc_zh": "n8n + LLM 工作流自动化 prompt 模板",
+    "category": "agent"
   },
   {
     "title": "browser-use / Computer Use 任务模板",
@@ -453,7 +498,8 @@ module.exports = [
       "Computer Use",
       "Agent"
     ],
-    "desc_zh": "browser-use / Computer Use 任务自动化模板"
+    "desc_zh": "browser-use / Computer Use 任务自动化模板",
+    "category": "agent"
   },
   {
     "title": "海螺 AI / Kling 视频脚本 prompt",
@@ -464,7 +510,8 @@ module.exports = [
       "Kling",
       "Video-Gen"
     ],
-    "desc_zh": "海螺 / Kling 等中文 AI 视频脚本 prompt"
+    "desc_zh": "海螺 / Kling 等中文 AI 视频脚本 prompt",
+    "category": "ai-video"
   },
   {
     "title": "Sora 2 短视频脚本（叙事型）",
@@ -474,7 +521,8 @@ module.exports = [
       "AI视频",
       "Video-Gen"
     ],
-    "desc_zh": "Sora 2 短视频脚本（叙事型，含运镜）"
+    "desc_zh": "Sora 2 短视频脚本（叙事型，含运镜）",
+    "category": "ai-video"
   },
   {
     "title": "LLM 面试题速答模板",
@@ -484,7 +532,8 @@ module.exports = [
       "面试",
       "学习"
     ],
-    "desc_zh": "面试现场速答 LLM 面试题模板"
+    "desc_zh": "面试现场速答 LLM 面试题模板",
+    "category": "learn"
   },
   {
     "title": "对比两个大模型（用户视角）",
@@ -493,7 +542,8 @@ module.exports = [
       "LLM",
       "调研"
     ],
-    "desc_zh": "用户视角对比两个大模型（实测对比）"
+    "desc_zh": "用户视角对比两个大模型（实测对比）",
+    "category": "learn"
   },
   {
     "title": "本地部署大模型选型",
@@ -503,7 +553,8 @@ module.exports = [
       "本地部署",
       "DeepSeek"
     ],
-    "desc_zh": "本地部署大模型选型 brief（硬件 + 模型）"
+    "desc_zh": "本地部署大模型选型 brief（硬件 + 模型）",
+    "category": "learn"
   },
   {
     "title": "AI 工具体验测评模板（小红书风）",
@@ -513,7 +564,8 @@ module.exports = [
       "Marketing",
       "小红书"
     ],
-    "desc_zh": "AI 工具体验测评模板（小红书风格）"
+    "desc_zh": "AI 工具体验测评模板（小红书风格）",
+    "category": "content"
   },
   {
     "title": "AI 副业方向评估",
@@ -522,7 +574,8 @@ module.exports = [
       "AI副业",
       "决策"
     ],
-    "desc_zh": "评估 AI 副业方向（市场 + 竞争 + 难度）"
+    "desc_zh": "评估 AI 副业方向（市场 + 竞争 + 难度）",
+    "category": "biz-life"
   },
   {
     "title": "AI 教程视频结构",
@@ -533,7 +586,8 @@ module.exports = [
       "小红书",
       "Marketing"
     ],
-    "desc_zh": "AI 教程视频结构（钩子 + 内容 + 收尾）"
+    "desc_zh": "AI 教程视频结构（钩子 + 内容 + 收尾）",
+    "category": "content"
   },
   {
     "title": "DeepSeek-R1 thinking 区块解读",
@@ -543,7 +597,8 @@ module.exports = [
       "LLM",
       "推理"
     ],
-    "desc_zh": "解读 DeepSeek-R1 的 thinking 区块"
+    "desc_zh": "解读 DeepSeek-R1 的 thinking 区块",
+    "category": "ai-coding"
   },
   {
     "title": "AI 整理碎片笔记",
@@ -553,7 +608,8 @@ module.exports = [
       "笔记",
       "AI助手"
     ],
-    "desc_zh": "把碎片笔记整理成结构化文档"
+    "desc_zh": "把碎片笔记整理成结构化文档",
+    "category": "work"
   },
   {
     "title": "AI 生成小红书爆款标题",
@@ -563,7 +619,8 @@ module.exports = [
       "Marketing",
       "Writing"
     ],
-    "desc_zh": "AI 生成小红书爆款标题（多 hook 测试）"
+    "desc_zh": "AI 生成小红书爆款标题（多 hook 测试）",
+    "category": "content"
   },
   {
     "title": "Midjourney 一致性人物模板",
@@ -573,7 +630,8 @@ module.exports = [
       "Image-Gen",
       "Character"
     ],
-    "desc_zh": "Midjourney 一致性人物 prompt（不同场景）"
+    "desc_zh": "Midjourney 一致性人物 prompt（不同场景）",
+    "category": "ai-art"
   },
   {
     "title": "SD WebUI / Forge 通用 prompt 结构",
@@ -583,7 +641,8 @@ module.exports = [
       "Image-Gen",
       "WebUI"
     ],
-    "desc_zh": "SD WebUI / Forge 通用 prompt 结构（高质量）"
+    "desc_zh": "SD WebUI / Forge 通用 prompt 结构（高质量）",
+    "category": "ai-art"
   },
   {
     "title": "AI 头像生成（社媒用）",
@@ -593,7 +652,8 @@ module.exports = [
       "头像",
       "Marketing"
     ],
-    "desc_zh": "AI 生成社媒头像（多风格选择）"
+    "desc_zh": "AI 生成社媒头像（多风格选择）",
+    "category": "ai-art"
   },
   {
     "title": "AI 壁纸生成（手机锁屏）",
@@ -602,7 +662,8 @@ module.exports = [
       "Image-Gen",
       "壁纸"
     ],
-    "desc_zh": "AI 生成手机锁屏壁纸（高分辨率）"
+    "desc_zh": "AI 生成手机锁屏壁纸（高分辨率）",
+    "category": "ai-art"
   },
   {
     "title": "ControlNet OpenPose 人物动作 prompt",
@@ -612,7 +673,8 @@ module.exports = [
       "Stable Diffusion",
       "Image-Gen"
     ],
-    "desc_zh": "ControlNet OpenPose 控制人物动作 prompt"
+    "desc_zh": "ControlNet OpenPose 控制人物动作 prompt",
+    "category": "ai-art"
   },
   {
     "title": "可灵 Kling 1.6 视频 prompt（中文）",
@@ -623,7 +685,8 @@ module.exports = [
       "AI视频",
       "Video-Gen"
     ],
-    "desc_zh": "可灵 1.6 中文视频 prompt（运镜 + 物理）"
+    "desc_zh": "可灵 1.6 中文视频 prompt（运镜 + 物理）",
+    "category": "ai-video"
   },
   {
     "title": "即梦 4.0 视频脚本",
@@ -633,7 +696,8 @@ module.exports = [
       "AI视频",
       "Video-Gen"
     ],
-    "desc_zh": "即梦 4.0 视频脚本模板"
+    "desc_zh": "即梦 4.0 视频脚本模板",
+    "category": "ai-video"
   },
   {
     "title": "Veo 3 长 prompt（含同步音轨）",
@@ -643,7 +707,8 @@ module.exports = [
       "AI视频",
       "Video-Gen"
     ],
-    "desc_zh": "Veo 3 长 prompt（含同步音轨）"
+    "desc_zh": "Veo 3 长 prompt（含同步音轨）",
+    "category": "ai-video"
   },
   {
     "title": "MCP server 设计模板",
@@ -654,7 +719,8 @@ module.exports = [
       "Coding-Agent",
       "Claude Code"
     ],
-    "desc_zh": "MCP server 设计模板（工具 + 资源 + prompt）"
+    "desc_zh": "MCP server 设计模板（工具 + 资源 + prompt）",
+    "category": "ai-coding"
   },
   {
     "title": "FastGPT / MaxKB 知识库 prompt",
@@ -665,7 +731,8 @@ module.exports = [
       "RAG",
       "Agent"
     ],
-    "desc_zh": "FastGPT / MaxKB 知识库 prompt 起手"
+    "desc_zh": "FastGPT / MaxKB 知识库 prompt 起手",
+    "category": "agent"
   },
   {
     "title": "MetaGPT 多 agent 协作 brief",
@@ -676,7 +743,8 @@ module.exports = [
       "智能体",
       "工程"
     ],
-    "desc_zh": "MetaGPT 多 agent 协作 brief（角色分工）"
+    "desc_zh": "MetaGPT 多 agent 协作 brief（角色分工）",
+    "category": "agent"
   },
   {
     "title": "Agent 失败模式诊断清单",
@@ -686,7 +754,8 @@ module.exports = [
       "Debug",
       "智能体"
     ],
-    "desc_zh": "Agent 失败模式 13 项诊断清单"
+    "desc_zh": "Agent 失败模式 13 项诊断清单",
+    "category": "agent"
   },
   {
     "title": "Aider 单 commit 任务模板",
@@ -695,7 +764,8 @@ module.exports = [
       "Aider",
       "Coding-Agent"
     ],
-    "desc_zh": "Aider 单 commit 任务标准模板"
+    "desc_zh": "Aider 单 commit 任务标准模板",
+    "category": "ai-coding"
   },
   {
     "title": "Continue.dev 项目 system prompt",
@@ -704,7 +774,8 @@ module.exports = [
       "Continue.dev",
       "Coding-Agent"
     ],
-    "desc_zh": "Continue.dev 项目 system prompt"
+    "desc_zh": "Continue.dev 项目 system prompt",
+    "category": "ai-coding"
   },
   {
     "title": "Trae / Qoder 国产 IDE agent prompt",
@@ -715,7 +786,8 @@ module.exports = [
       "Coding-Agent",
       "国产工具"
     ],
-    "desc_zh": "Trae / Qoder 国产 IDE agent prompt 模板"
+    "desc_zh": "Trae / Qoder 国产 IDE agent prompt 模板",
+    "category": "ai-coding"
   },
   {
     "title": "AI 补全代码后的自我审查清单",
@@ -725,7 +797,8 @@ module.exports = [
       "Code Review",
       "AI助手"
     ],
-    "desc_zh": "AI 写完代码后的自我审查 7 项清单"
+    "desc_zh": "AI 写完代码后的自我审查 7 项清单",
+    "category": "ai-coding"
   },
   {
     "title": "AI 内容创作流水线设计",
@@ -735,7 +808,8 @@ module.exports = [
       "Marketing",
       "内容创作"
     ],
-    "desc_zh": "AI 内容创作流水线设计（idea → 发布）"
+    "desc_zh": "AI 内容创作流水线设计（idea → 发布）",
+    "category": "biz-life"
   },
   {
     "title": "ChatGPT 销售文案写作（带场景）",
@@ -745,7 +819,8 @@ module.exports = [
       "Marketing",
       "ChatGPT"
     ],
-    "desc_zh": "ChatGPT 销售文案写作（带具体场景）"
+    "desc_zh": "ChatGPT 销售文案写作（带具体场景）",
+    "category": "content"
   },
   {
     "title": "AI 评测短文模板（小红书 / 即刻）",
@@ -755,7 +830,8 @@ module.exports = [
       "小红书",
       "Marketing"
     ],
-    "desc_zh": "AI 评测短文模板（小红书 / 即刻 风格）"
+    "desc_zh": "AI 评测短文模板（小红书 / 即刻 风格）",
+    "category": "content"
   },
   {
     "title": "AI 生成会议纪要（带 action items）",
@@ -765,7 +841,8 @@ module.exports = [
       "会议纪要",
       "AI助手"
     ],
-    "desc_zh": "AI 生成会议纪要（含 action items）"
+    "desc_zh": "AI 生成会议纪要（含 action items）",
+    "category": "work"
   },
   {
     "title": "ChatGPT/Claude 写邮件回复",
@@ -775,7 +852,8 @@ module.exports = [
       "Email",
       "Writing"
     ],
-    "desc_zh": "ChatGPT/Claude 写邮件回复（保留语气）"
+    "desc_zh": "ChatGPT/Claude 写邮件回复（保留语气）",
+    "category": "work"
   },
   {
     "title": "AI 帮我吵架（理性版）",
@@ -784,7 +862,8 @@ module.exports = [
       "沟通",
       "AI助手"
     ],
-    "desc_zh": "用 AI 理性表达不满（替代吵架）"
+    "desc_zh": "用 AI 理性表达不满（替代吵架）",
+    "category": "biz-life"
   },
   {
     "title": "AI 整理 PDF / 长文 → Anki 卡",
@@ -794,7 +873,8 @@ module.exports = [
       "Anki",
       "笔记"
     ],
-    "desc_zh": "AI 把 PDF / 长文整理成 Anki 卡（间隔重复）"
+    "desc_zh": "AI 把 PDF / 长文整理成 Anki 卡（间隔重复）",
+    "category": "learn"
   },
   {
     "title": "AI 重写 commit message（按 conventional）",
@@ -804,7 +884,8 @@ module.exports = [
       "Git",
       "效率"
     ],
-    "desc_zh": "AI 重写 commit message 按 conventional commits"
+    "desc_zh": "AI 重写 commit message 按 conventional commits",
+    "category": "ai-coding"
   },
   {
     "title": "AI 生成 SQL（带安全检查）",
@@ -814,7 +895,8 @@ module.exports = [
       "Coding-Agent",
       "数据"
     ],
-    "desc_zh": "AI 生成 SQL（带安全检查 + 执行 plan）"
+    "desc_zh": "AI 生成 SQL（带安全检查 + 执行 plan）",
+    "category": "ai-coding"
   },
   {
     "title": "AI 起 PR / MR 描述",
@@ -824,7 +906,8 @@ module.exports = [
       "PR",
       "Coding-Agent"
     ],
-    "desc_zh": "AI 起 PR / MR 描述（含变更摘要）"
+    "desc_zh": "AI 起 PR / MR 描述（含变更摘要）",
+    "category": "ai-coding"
   },
   {
     "title": "AI 学习路径生成（30 天计划）",
@@ -834,7 +917,8 @@ module.exports = [
       "AI助手",
       "效率"
     ],
-    "desc_zh": "AI 生成 30 天学习路径（含每日任务）"
+    "desc_zh": "AI 生成 30 天学习路径（含每日任务）",
+    "category": "learn"
   },
   {
     "title": "Feynman 笔记法 LLM 版",
@@ -844,7 +928,8 @@ module.exports = [
       "Feynman",
       "AI助手"
     ],
-    "desc_zh": "Feynman 笔记法的 LLM 版本"
+    "desc_zh": "Feynman 笔记法的 LLM 版本",
+    "category": "learn"
   },
   {
     "title": "知识点 → mermaid 图",
@@ -854,7 +939,8 @@ module.exports = [
       "可视化",
       "笔记"
     ],
-    "desc_zh": "把知识点结构化成 mermaid 图（流程/思维）"
+    "desc_zh": "把知识点结构化成 mermaid 图（流程/思维）",
+    "category": "learn"
   },
   {
     "title": "自媒体选题挖掘 prompt",
@@ -864,7 +950,8 @@ module.exports = [
       "选题",
       "Marketing"
     ],
-    "desc_zh": "自媒体选题挖掘 prompt（趋势 + 痛点）"
+    "desc_zh": "自媒体选题挖掘 prompt（趋势 + 痛点）",
+    "category": "content"
   },
   {
     "title": "短视频脚本 Hook 测试",
@@ -874,7 +961,8 @@ module.exports = [
       "Marketing",
       "Writing"
     ],
-    "desc_zh": "短视频脚本 Hook 测试（多版本 A/B）"
+    "desc_zh": "短视频脚本 Hook 测试（多版本 A/B）",
+    "category": "content"
   },
   {
     "title": "公众号长文结构 outline",
@@ -884,7 +972,8 @@ module.exports = [
       "Writing",
       "Marketing"
     ],
-    "desc_zh": "公众号长文结构 outline（钩子 + 干货 + CTA）"
+    "desc_zh": "公众号长文结构 outline（钩子 + 干货 + CTA）",
+    "category": "content"
   },
   {
     "title": "代码迁移 prompt（语言 / 框架）",
@@ -894,7 +983,8 @@ module.exports = [
       "迁移",
       "Coding-Agent"
     ],
-    "desc_zh": "代码语言/框架迁移 prompt（含 diff）"
+    "desc_zh": "代码语言/框架迁移 prompt（含 diff）",
+    "category": "ai-coding"
   },
   {
     "title": "API 设计 review",
@@ -904,7 +994,8 @@ module.exports = [
       "Code Review",
       "Coding-Agent"
     ],
-    "desc_zh": "API 设计 review（REST/GraphQL/gRPC）"
+    "desc_zh": "API 设计 review（REST/GraphQL/gRPC）",
+    "category": "ai-coding"
   },
   {
     "title": "数据库 schema 演进 prompt",
@@ -914,7 +1005,8 @@ module.exports = [
       "SQL",
       "Coding-Agent"
     ],
-    "desc_zh": "数据库 schema 演进 prompt（zero-downtime）"
+    "desc_zh": "数据库 schema 演进 prompt（zero-downtime）",
+    "category": "ai-coding"
   },
   {
     "title": "性能瓶颈定位 prompt",
@@ -924,7 +1016,8 @@ module.exports = [
       "Debug",
       "Coding-Agent"
     ],
-    "desc_zh": "性能瓶颈定位 prompt（含 profiling 指引）"
+    "desc_zh": "性能瓶颈定位 prompt（含 profiling 指引）",
+    "category": "ai-coding"
   },
   {
     "title": "商业模式画布快速填",
@@ -934,7 +1027,8 @@ module.exports = [
       "决策",
       "商业模式"
     ],
-    "desc_zh": "商业模式画布 9 格快速填"
+    "desc_zh": "商业模式画布 9 格快速填",
+    "category": "biz-life"
   },
   {
     "title": "AI 分析竞品",
@@ -944,7 +1038,8 @@ module.exports = [
       "调研",
       "决策"
     ],
-    "desc_zh": "AI 分析竞品（5 维度 + 差异化建议）"
+    "desc_zh": "AI 分析竞品（5 维度 + 差异化建议）",
+    "category": "biz-life"
   },
   {
     "title": "用户访谈半结构化模板",
@@ -954,7 +1049,8 @@ module.exports = [
       "调研",
       "决策"
     ],
-    "desc_zh": "用户访谈半结构化模板（暖场 + 5 主问 + 收尾）"
+    "desc_zh": "用户访谈半结构化模板（暖场 + 5 主问 + 收尾）",
+    "category": "biz-life"
   },
   {
     "title": "AI 帮我做菜单（按冰箱）",
@@ -963,7 +1059,8 @@ module.exports = [
       "生活",
       "美食"
     ],
-    "desc_zh": "AI 按冰箱食材生成菜单（中式 / 一周）"
+    "desc_zh": "AI 按冰箱食材生成菜单（中式 / 一周）",
+    "category": "biz-life"
   },
   {
     "title": "AI 旅行规划器",
@@ -972,7 +1069,8 @@ module.exports = [
       "生活",
       "旅行"
     ],
-    "desc_zh": "AI 旅行规划器（含交通 + 住宿 + 备选）"
+    "desc_zh": "AI 旅行规划器（含交通 + 住宿 + 备选）",
+    "category": "biz-life"
   },
   {
     "title": "AI 健身计划生成",
@@ -981,7 +1079,8 @@ module.exports = [
       "生活",
       "健身"
     ],
-    "desc_zh": "AI 健身计划生成（按目标 + 设备）"
+    "desc_zh": "AI 健身计划生成（按目标 + 设备）",
+    "category": "biz-life"
   },
   {
     "title": "合同条款风险排查 prompt",
@@ -991,7 +1090,8 @@ module.exports = [
       "合同",
       "决策"
     ],
-    "desc_zh": "合同条款风险排查 prompt（不替代律师）"
+    "desc_zh": "合同条款风险排查 prompt（不替代律师）",
+    "category": "biz-life"
   },
   {
     "title": "App 隐私政策 + 用户协议生成",
@@ -1001,7 +1101,8 @@ module.exports = [
       "隐私",
       "合规"
     ],
-    "desc_zh": "App 隐私政策 + 用户协议生成（含 GDPR）"
+    "desc_zh": "App 隐私政策 + 用户协议生成（含 GDPR）",
+    "category": "biz-life"
   },
   {
     "title": "App Store description 重写（按转化）",
@@ -1011,7 +1112,8 @@ module.exports = [
       "App Store",
       "Marketing"
     ],
-    "desc_zh": "App Store 描述按转化率重写"
+    "desc_zh": "App Store 描述按转化率重写",
+    "category": "biz-life"
   },
   {
     "title": "AppStoreConnect 提审说明（review notes）",
@@ -1021,7 +1123,8 @@ module.exports = [
       "App Store",
       "提审"
     ],
-    "desc_zh": "AppStoreConnect 提审说明（review notes）"
+    "desc_zh": "AppStoreConnect 提审说明（review notes）",
+    "category": "biz-life"
   },
   {
     "title": "AI 校对（找问题不改风格）",
@@ -1030,7 +1133,8 @@ module.exports = [
       "写作",
       "校对"
     ],
-    "desc_zh": "AI 校对：找问题不改风格（保留作者声音）"
+    "desc_zh": "AI 校对：找问题不改风格（保留作者声音）",
+    "category": "content"
   },
   {
     "title": "AI 改写为「读起来不累」版",
@@ -1039,7 +1143,8 @@ module.exports = [
       "写作",
       "Editing"
     ],
-    "desc_zh": "AI 把硬文改写成读起来不累的版本"
+    "desc_zh": "AI 把硬文改写成读起来不累的版本",
+    "category": "content"
   },
   {
     "title": "AI 把照片转成可发圈的文案",
@@ -1049,7 +1154,8 @@ module.exports = [
       "Writing",
       "Marketing"
     ],
-    "desc_zh": "AI 把照片转成可发朋友圈/小红书的文案"
+    "desc_zh": "AI 把照片转成可发朋友圈/小红书的文案",
+    "category": "content"
   },
   {
     "title": "AI 起读书笔记（带行动项）",
@@ -1058,7 +1164,8 @@ module.exports = [
       "学习",
       "读书"
     ],
-    "desc_zh": "AI 起读书笔记（含行动项 + 引用）"
+    "desc_zh": "AI 起读书笔记（含行动项 + 引用）",
+    "category": "learn"
   },
   {
     "title": "AI 帮我写求职信（cover letter）",
@@ -1067,7 +1174,8 @@ module.exports = [
       "求职",
       "Writing"
     ],
-    "desc_zh": "AI 帮你写求职信 cover letter（个性化）"
+    "desc_zh": "AI 帮你写求职信 cover letter（个性化）",
+    "category": "biz-life"
   },
   {
     "title": "AI 给我做选择（用启发式）",
@@ -1076,7 +1184,8 @@ module.exports = [
       "决策",
       "AI助手"
     ],
-    "desc_zh": "AI 给你做选择（用启发式 + 元决策）"
+    "desc_zh": "AI 给你做选择（用启发式 + 元决策）",
+    "category": "biz-life"
   },
   {
     "title": "AI 解读图表 / 数据",
@@ -1085,7 +1194,8 @@ module.exports = [
       "数据",
       "调研"
     ],
-    "desc_zh": "AI 解读图表 / 数据（找规律 + 异常）"
+    "desc_zh": "AI 解读图表 / 数据（找规律 + 异常）",
+    "category": "work"
   },
   {
     "title": "Excel 公式 / 函数生成",
@@ -1094,7 +1204,8 @@ module.exports = [
       "Excel",
       "数据"
     ],
-    "desc_zh": "AI 生成 Excel 公式 / 函数（含说明）"
+    "desc_zh": "AI 生成 Excel 公式 / 函数（含说明）",
+    "category": "work"
   },
   {
     "title": "AI 写日语商务邮件",
@@ -1103,7 +1214,8 @@ module.exports = [
       "日语",
       "邮件"
     ],
-    "desc_zh": "AI 写日语商务邮件（敬语合规）"
+    "desc_zh": "AI 写日语商务邮件（敬语合规）",
+    "category": "biz-life"
   },
   {
     "title": "AI 翻译保留语气（non-literal）",
@@ -1112,6 +1224,7 @@ module.exports = [
       "翻译",
       "AI助手"
     ],
-    "desc_zh": "AI 翻译保留原作者语气（不机翻不直译）"
+    "desc_zh": "AI 翻译保留原作者语气（不机翻不直译）",
+    "category": "content"
   }
 ];

@@ -1,13 +1,9 @@
 /* pages/index/index.wxss */
 
-.container {
-  padding: 32rpx 24rpx 100rpx;
-}
+.container { padding: 24rpx 24rpx 100rpx; }
 
-.header {
-  margin-bottom: 32rpx;
-}
-
+/* === Header === */
+.header { margin-bottom: 24rpx; }
 .title {
   font-size: 56rpx;
   font-weight: 700;
@@ -16,57 +12,172 @@
   background-clip: text;
   color: transparent;
 }
-
 .subtitle {
-  font-size: 24rpx;
-  margin-top: 8rpx;
+  font-size: 22rpx;
+  margin-top: 6rpx;
 }
 
-.search-bar {
-  margin-bottom: 24rpx;
-}
-
-.search-input {
-  width: 100%;
+/* === 搜索框 === */
+.search-bar { margin-bottom: 16rpx; }
+.search-input-wrap {
+  display: flex;
+  align-items: center;
   background: #12121a;
   border: 1rpx solid #1f1f2e;
-  color: #e6e6f0;
-  padding: 22rpx 28rpx;
   border-radius: 14rpx;
+  padding: 0 22rpx;
+  height: 80rpx;
+}
+.search-icon {
+  font-size: 28rpx;
+  color: #8a8a9a;
+  margin-right: 12rpx;
+}
+.search-input {
+  flex: 1;
+  color: #e6e6f0;
   font-size: 28rpx;
 }
-
-.search-placeholder {
+.search-placeholder { color: #6a6a7a; }
+.search-clear {
+  font-size: 36rpx;
   color: #8a8a9a;
+  padding: 0 12rpx;
+  line-height: 1;
 }
 
-.tag-bar {
+/* === 搜索历史 === */
+.search-history {
+  background: #0f0f17;
+  border-radius: 12rpx;
+  padding: 14rpx 18rpx;
+  margin-bottom: 16rpx;
+}
+.history-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8rpx;
+}
+.history-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8rpx;
+}
+
+/* === 8 大类条 === */
+.cat-bar {
   margin-bottom: 16rpx;
   width: 100%;
+}
+.cat-list {
+  display: inline-flex;
+  padding: 4rpx 0;
+}
+.cat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 14rpx 18rpx;
+  margin-right: 12rpx;
+  background: #12121a;
+  border: 1rpx solid #1f1f2e;
+  border-radius: 14rpx;
+  min-width: 110rpx;
+  flex-shrink: 0;
+}
+.cat-item.active {
+  background: rgba(108, 75, 224, 0.18);
+  border-color: #6c4be0;
+}
+.cat-icon {
+  font-size: 36rpx;
+  line-height: 1;
+}
+.cat-name {
+  font-size: 22rpx;
+  color: #e6e6f0;
+  margin-top: 6rpx;
   white-space: nowrap;
 }
+.cat-item.active .cat-name { color: #c084fc; font-weight: 600; }
 
+/* === 子标签条 === */
+.tag-bar {
+  margin-bottom: 12rpx;
+  width: 100%;
+}
 .tag-list {
   display: inline-block;
-  padding-bottom: 8rpx;
+  padding-bottom: 4rpx;
 }
 
+/* === 工具栏 === */
+.toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 12rpx 0 16rpx;
+}
 .result-meta {
   font-size: 24rpx;
-  margin-bottom: 18rpx;
+}
+.clear-link {
+  color: #9b6cf0;
+}
+.toolbar-actions {
+  display: flex;
+  gap: 12rpx;
+}
+.tool-btn {
+  font-size: 24rpx;
+  color: #e6e6f0;
+  background: #12121a;
+  border: 1rpx solid #1f1f2e;
+  border-radius: 8rpx;
+  padding: 8rpx 16rpx;
 }
 
+/* === 排序菜单 === */
+.sort-menu-mask {
+  position: fixed; left: 0; top: 0; right: 0; bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 100;
+}
+.sort-menu {
+  width: 70%; max-width: 480rpx;
+  background: #12121a;
+  border: 1rpx solid #1f1f2e;
+  border-radius: 16rpx;
+  padding: 16rpx 0;
+}
+.sort-item {
+  padding: 24rpx 32rpx;
+  font-size: 28rpx;
+  color: #e6e6f0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.sort-item.active {
+  color: #9b6cf0;
+}
+.sort-item:active {
+  background: rgba(108, 75, 224, 0.1);
+}
+.check {
+  color: #9b6cf0;
+  font-size: 32rpx;
+}
+
+/* === Prompt 列表 === */
 .prompt-list {
   margin-top: 8rpx;
 }
 
 .prompt-item {
   position: relative;
-  padding-right: 80rpx; /* 留位置给 ☆ 按钮 */
-}
-
-.prompt-main {
-  /* 让点击主内容区进 detail */
+  padding-right: 80rpx;
 }
 
 .fav-toggle {
@@ -82,12 +193,8 @@
   border-radius: 50%;
   z-index: 2;
 }
-.fav-toggle.is-fav {
-  color: #ffb547;
-}
-.fav-toggle:active {
-  background: rgba(255, 181, 71, 0.15);
-}
+.fav-toggle.is-fav { color: #ffb547; }
+.fav-toggle:active { background: rgba(255, 181, 71, 0.15); }
 
 .prompt-title {
   font-size: 30rpx;
@@ -117,18 +224,38 @@
   margin-top: 4rpx;
 }
 
+/* compact view: 只显示 title + desc_zh */
+.prompt-list.compact .prompt-item {
+  padding: 16rpx 80rpx 16rpx 20rpx;
+  margin-bottom: 8rpx;
+}
+.prompt-list.compact .prompt-title {
+  font-size: 28rpx;
+  margin-bottom: 4rpx;
+}
+.prompt-list.compact .prompt-desc-zh {
+  font-size: 22rpx;
+  margin-bottom: 0;
+}
+.prompt-list.compact .fav-toggle {
+  top: 8rpx;
+  right: 8rpx;
+  width: 56rpx;
+  height: 56rpx;
+  line-height: 56rpx;
+  font-size: 32rpx;
+}
+
 .empty {
   text-align: center;
   padding: 80rpx 0;
-  font-size: 28rpx;
+  font-size: 26rpx;
 }
 
 .footer {
   margin-top: 60rpx;
   text-align: center;
-  font-size: 22rpx;
 }
-
 .footer-text {
   font-size: 22rpx;
 }

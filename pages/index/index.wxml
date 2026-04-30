@@ -1,30 +1,80 @@
-<!-- pages/index/index.wxml -->
 <view class="container">
 
+  <!-- Header -->
   <view class="header">
     <view class="title">PromptVault</view>
-    <view class="subtitle muted">113 AI 提示词 · 离线 · 零数据收集</view>
+    <view class="subtitle muted">{{promptsAll.length}} 条 AI 提示词 · 离线 · 零数据</view>
   </view>
 
+  <!-- 搜索框 -->
   <view class="search-bar">
-    <input
-      class="search-input"
-      placeholder="搜索 prompt 标题 / 内容 / 标签"
-      placeholder-class="search-placeholder"
-      bindinput="onSearchInput"
-      value="{{keyword}}"
-    />
+    <view class="search-input-wrap">
+      <text class="search-icon">🔍</text>
+      <input
+        class="search-input"
+        placeholder="搜索标题 / 中文说明 / 内容 / 标签"
+        placeholder-class="search-placeholder"
+        bindinput="onSearchInput"
+        bindconfirm="onSearchConfirm"
+        confirm-type="search"
+        value="{{keyword}}"
+      />
+      <text wx:if="{{keyword}}" class="search-clear" bindtap="onSearchClear">×</text>
+    </view>
   </view>
 
-  <scroll-view scroll-x class="tag-bar" enhanced="{{true}}" show-scrollbar="{{false}}">
+  <!-- 搜索历史（搜索框聚焦但 keyword 空时显示） -->
+  <view wx:if="{{searchHistory.length > 0 && !keyword}}" class="search-history">
+    <view class="history-header">
+      <text class="muted" style="font-size: 22rpx;">最近搜索</text>
+      <text class="muted" style="font-size: 22rpx;" bindtap="onClearSearchHistory">清空</text>
+    </view>
+    <view class="history-tags">
+      <text
+        wx:for="{{searchHistory}}"
+        wx:key="*this"
+        class="tag"
+        bindtap="onSearchHistoryTap"
+        data-kw="{{item}}"
+      >{{item}}</text>
+    </view>
+  </view>
+
+  <!-- 8 大类 -->
+  <scroll-view scroll-x class="cat-bar" enhanced="{{true}}" show-scrollbar="{{false}}">
+    <view class="cat-list">
+      <view
+        class="cat-item {{activeCategory === '' ? 'active' : ''}}"
+        bindtap="onCategoryTap"
+        data-id=""
+      >
+        <text class="cat-icon">📋</text>
+        <text class="cat-name">全部</text>
+      </view>
+      <view
+        wx:for="{{categories}}"
+        wx:key="id"
+        class="cat-item {{activeCategory === item.id ? 'active' : ''}}"
+        bindtap="onCategoryTap"
+        data-id="{{item.id}}"
+      >
+        <text class="cat-icon">{{item.icon}}</text>
+        <text class="cat-name">{{item.name}}</text>
+      </view>
+    </view>
+  </scroll-view>
+
+  <!-- 子标签（当前 category 下）-->
+  <scroll-view wx:if="{{availableTags.length > 0}}" scroll-x class="tag-bar" enhanced="{{true}}" show-scrollbar="{{false}}">
     <view class="tag-list">
       <view
         wx:if="{{activeTag}}"
         class="tag active"
-        bindtap="onClearTag"
-      >× 清除筛选</view>
+        bindtap="onTagTap"
+        data-tag="{{activeTag}}"
+      >× {{activeTag}}</view>
       <view
-        wx:for="{{allTags}}"
+        wx:for="{{availableTags}}"
         wx:key="*this"
         class="tag {{activeTag === item ? 'active' : ''}}"
         bindtap="onTagTap"
@@ -33,31 +83,56 @@
     </view>
   </scroll-view>
 
-  <view class="result-meta muted">
-    {{promptsFiltered.length}} 条 prompt
-    <text wx:if="{{activeTag}}"> · 标签 {{activeTag}}</text>
-    <text wx:if="{{keyword}}"> · 关键词 "{{keyword}}"</text>
+  <!-- 工具栏：结果数 + 排序 + 视图切换 -->
+  <view class="toolbar">
+    <view class="result-meta muted">
+      {{promptsFiltered.length}} 条
+      <text wx:if="{{activeCategory || activeTag || keyword}}" class="clear-link" bindtap="onClearAll"> · 清除筛选</text>
+    </view>
+    <view class="toolbar-actions">
+      <view class="tool-btn" bindtap="onSortToggle">
+        ↕ {{sortBy === 'default' ? '默认' : sortBy === 'recent' ? '最近用过' : sortBy === 'favorite' ? '收藏优先' : '字母排序'}}
+      </view>
+      <view class="tool-btn" bindtap="onViewModeToggle">
+        {{viewMode === 'card' ? '☰' : '▦'}}
+      </view>
+    </view>
   </view>
 
-  <view class="prompt-list">
+  <!-- 排序菜单（弹窗）-->
+  <view wx:if="{{showSortMenu}}" class="sort-menu-mask" catch:tap="onSortToggle">
+    <view class="sort-menu" catch:tap="onDialogStop">
+      <view
+        wx:for="{{sortOptions}}"
+        wx:key="id"
+        class="sort-item {{sortBy === item.id ? 'active' : ''}}"
+        catch:tap="onSortSelect"
+        data-id="{{item.id}}"
+      >
+        <text>{{item.label}}</text>
+        <text wx:if="{{sortBy === item.id}}" class="check">✓</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- Prompt 列表 -->
+  <view class="prompt-list {{viewMode}}">
     <view
       wx:for="{{promptsFiltered}}"
       wx:key="title"
       class="card prompt-item"
     >
-      <!-- 内联收藏星 -->
       <view
         class="fav-toggle {{favoriteSet[item.title] ? 'is-fav' : ''}}"
-        catchtap="onToggleFavorite"
+        catch:tap="onToggleFavorite"
         data-title="{{item.title}}"
       >{{favoriteSet[item.title] ? '★' : '☆'}}</view>
 
-      <!-- 主内容（点击进 detail）-->
       <view bindtap="onPromptTap" data-idx="{{index}}" class="prompt-main">
         <view class="prompt-title">{{item.title}}</view>
         <view wx:if="{{item.desc_zh}}" class="prompt-desc-zh">{{item.desc_zh}}</view>
-        <view class="prompt-preview muted">{{item.body}}</view>
-        <view class="prompt-tags">
+        <view wx:if="{{viewMode === 'card'}}" class="prompt-preview muted">{{item.body}}</view>
+        <view wx:if="{{viewMode === 'card'}}" class="prompt-tags">
           <text
             wx:for="{{item.tags}}"
             wx:for-item="t"
@@ -69,20 +144,24 @@
     </view>
 
     <view wx:if="{{promptsFiltered.length === 0}}" class="empty muted">
-      没有找到匹配的 prompt。试试其他关键词或清除筛选。
+      <view style="font-size: 60rpx; color: #1f1f2e; line-height: 1; margin-bottom: 16rpx;">∅</view>
+      <view>没找到匹配的 prompt</view>
+      <view class="empty-hint" style="margin-top: 12rpx; font-size: 22rpx;">试试其他关键词，或</view>
+      <view class="empty-action" bindtap="onClearAll" style="display: inline-block; margin-top: 16rpx; padding: 12rpx 24rpx; background: #6c4be0; color: white; border-radius: 8rpx;">清除所有筛选</view>
     </view>
   </view>
 
+  <!-- Footer -->
   <view class="footer">
     <view class="footer-text muted">
       离线工作 · 不收集任何数据 · MIT 开源
     </view>
     <view class="footer-text muted" style="margin-top: 12rpx;">
-      网页版 / iOS / Chrome / VSCode 同源 ·
-      <text decode="{{true}}">jiejuefuyou.github.io</text>
+      iOS / 网页版 / Chrome / VSCode 同源 · jiejuefuyou.github.io
     </view>
   </view>
 
+  <!-- Banner ad -->
   <ad
     wx:if="{{showBannerAd && bannerAdUnitId}}"
     unit-id="{{bannerAdUnitId}}"
