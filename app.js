@@ -9,7 +9,7 @@ App({
     if (!wx.getStorageSync('customPrompts')) wx.setStorageSync('customPrompts', []);
   },
   globalData: {
-    version: '1.0.8',
+    version: '1.0.9',
     promptCount: prompts.length,        // 动态：随 prompts.js 自动算
     articleCount: articles.articles.length,
     surfaces: 5,                        // iOS / Web / Chrome / VSCode / 微信小程序

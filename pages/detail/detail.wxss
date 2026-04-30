@@ -30,6 +30,30 @@
 
 .tags {
   margin-top: 8rpx;
+  flex: 1;
+}
+
+.header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12rpx;
+  margin-top: 8rpx;
+}
+
+.lang-toggle {
+  flex-shrink: 0;
+  font-size: 22rpx;
+  padding: 8rpx 18rpx;
+  background: rgba(108,75,224,0.18);
+  border: 1rpx solid #6c4be0;
+  color: #c084fc;
+  border-radius: 999rpx;
+  white-space: nowrap;
+  margin-top: 4rpx;
+}
+.lang-toggle:active {
+  opacity: 0.7;
 }
 
 .section-title {

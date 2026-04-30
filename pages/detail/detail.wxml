@@ -4,8 +4,14 @@
   <view class="header">
     <view class="title">{{prompt.title}}</view>
     <view wx:if="{{prompt.desc_zh}}" class="desc-zh">{{prompt.desc_zh}}</view>
-    <view class="tags">
-      <text wx:for="{{prompt.tags}}" wx:key="*this" class="tag">{{item}}</text>
+    <view class="header-row">
+      <view class="tags">
+        <text wx:for="{{prompt.tags}}" wx:key="*this" class="tag">{{item}}</text>
+      </view>
+      <view wx:if="{{hasBilingual}}" class="lang-toggle" bindtap="onLangToggle">
+        <text wx:if="{{currentLang === 'zh'}}">中 → EN</text>
+        <text wx:else>EN → 中</text>
+      </view>
     </view>
   </view>
 

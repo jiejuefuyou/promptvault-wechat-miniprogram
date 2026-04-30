@@ -1,12 +1,18 @@
 // pages/detail/detail.js
 const adsConfig = require('../../utils/ads-config.js');
 
+function hasChinese(s) {
+  return /[一-鿿]/.test(s || '');
+}
+
 Page({
   data: {
     prompt: null,
-    variables: [],          // [{ key: 'text', value: '' }]
+    variables: [],
     filledBody: '',
-    rewardedAdReady: false, // 激励视频可用
+    currentLang: 'zh',          // 'zh' or 'en' — 当前显示版本
+    hasBilingual: false,        // 是否有中英两版可切
+    rewardedAdReady: false,
     rewardedAdUnitId: adsConfig.REWARDED_AD_UNIT_ID,
     rewardedEnabled: adsConfig.enableRewarded && !!adsConfig.REWARDED_AD_UNIT_ID,
     isFavorited: false
@@ -19,24 +25,47 @@ Page({
       return;
     }
 
-    // 提取 {{xxx}} 变量
-    const matches = prompt.body.match(/\{\{([^}]+)\}\}/g) || [];
+    // 判断是否双语：body_zh 存在且与 body 不同 = 双语
+    const hasBilingual = !!prompt.body_zh && prompt.body_zh !== prompt.body;
+    // 默认显示中文版（如果有），其次回退到 body
+    const defaultLang = hasBilingual && hasChinese(prompt.body_zh) ? 'zh' : (hasChinese(prompt.body) ? 'zh' : 'en');
+    const initialBody = (defaultLang === 'zh' && prompt.body_zh) ? prompt.body_zh : prompt.body;
+
+    // 提取 {{xxx}} 变量（用 initialBody 提取）
+    const matches = initialBody.match(/\{\{([^}]+)\}\}/g) || [];
     const uniqueKeys = [...new Set(matches.map(m => m.slice(2, -2).trim()))];
     const variables = uniqueKeys.map(k => ({ key: k, value: '' }));
 
-    // 检查是否已收藏
     const favorites = wx.getStorageSync('favorites') || [];
     const isFav = favorites.includes(prompt.title);
 
     this.setData({
       prompt,
       variables,
-      filledBody: prompt.body,
-      isFavorited: isFav
+      filledBody: initialBody,
+      currentLang: defaultLang,
+      hasBilingual,
+      isFavorited: isFav,
     });
 
-    // 预加载激励视频
     this.loadRewardedAd();
+  },
+
+  // 中/英切换
+  onLangToggle() {
+    if (!this.data.hasBilingual) return;
+    const nextLang = this.data.currentLang === 'zh' ? 'en' : 'zh';
+    this.setData({ currentLang: nextLang }, () => {
+      this.updateFilledBody();
+    });
+    wx.showToast({ title: nextLang === 'zh' ? '已切到中文版' : 'Switched to EN', icon: 'none', duration: 800 });
+  },
+
+  // 当前显示哪个 body
+  getCurrentBody() {
+    const { prompt, currentLang } = this.data;
+    if (currentLang === 'zh' && prompt.body_zh) return prompt.body_zh;
+    return prompt.body;
   },
 
   onVarInput(e) {
@@ -49,7 +78,7 @@ Page({
   },
 
   updateFilledBody() {
-    let body = this.data.prompt.body;
+    let body = this.getCurrentBody();
     this.data.variables.forEach(v => {
       const re = new RegExp(`\\{\\{${this.escapeRegex(v.key)}\\}\\}`, 'g');
       body = body.replace(re, v.value || `{{${v.key}}}`);
