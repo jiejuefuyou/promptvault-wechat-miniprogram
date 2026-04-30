@@ -1,11 +1,14 @@
 // pages/detail/detail.js
+const adsConfig = require('../../utils/ads-config.js');
+
 Page({
   data: {
     prompt: null,
     variables: [],          // [{ key: 'text', value: '' }]
     filledBody: '',
     rewardedAdReady: false, // 激励视频可用
-    rewardedAdUnitId: '',   // 你在小程序后台拿 → 填进来
+    rewardedAdUnitId: adsConfig.REWARDED_AD_UNIT_ID,
+    rewardedEnabled: adsConfig.enableRewarded && !!adsConfig.REWARDED_AD_UNIT_ID,
     isFavorited: false
   },
 

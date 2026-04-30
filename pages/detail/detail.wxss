@@ -14,7 +14,18 @@
   font-size: 40rpx;
   font-weight: 700;
   color: #e6e6f0;
+  margin-bottom: 8rpx;
+}
+
+.desc-zh {
+  font-size: 28rpx;
+  color: #9b6cf0;
   margin-bottom: 12rpx;
+  line-height: 1.5;
+  padding: 12rpx 16rpx;
+  background: rgba(108, 75, 224, 0.08);
+  border-left: 3rpx solid #6c4be0;
+  border-radius: 6rpx;
 }
 
 .tags {

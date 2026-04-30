@@ -93,7 +93,14 @@
   font-size: 30rpx;
   font-weight: 600;
   color: #e6e6f0;
+  margin-bottom: 6rpx;
+}
+
+.prompt-desc-zh {
+  font-size: 24rpx;
+  color: #9b6cf0;
   margin-bottom: 8rpx;
+  line-height: 1.4;
 }
 
 .prompt-preview {

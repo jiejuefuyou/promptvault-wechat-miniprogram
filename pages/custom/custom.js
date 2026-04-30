@@ -20,6 +20,11 @@ Page({
     this.setData({ showAddDialog: false });
   },
 
+  // 阻止 dialog 内部点击冒泡到 mask（mask 触发 cancel）
+  onDialogStop() {
+    // intentional no-op
+  },
+
   onTitleInput(e) { this.setData({ newTitle: e.detail.value }); },
   onBodyInput(e) { this.setData({ newBody: e.detail.value }); },
   onTagsInput(e) { this.setData({ newTags: e.detail.value }); },

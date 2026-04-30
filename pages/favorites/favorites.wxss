@@ -5,7 +5,8 @@
 .subtitle { font-size: 24rpx; margin-top: 8rpx; }
 
 .prompt-item { position: relative; }
-.prompt-title { font-size: 30rpx; font-weight: 600; color: #e6e6f0; margin-bottom: 8rpx; }
+.prompt-title { font-size: 30rpx; font-weight: 600; color: #e6e6f0; margin-bottom: 6rpx; }
+.prompt-desc-zh { font-size: 24rpx; color: #9b6cf0; margin-bottom: 8rpx; line-height: 1.4; }
 .prompt-preview { font-size: 24rpx; line-height: 1.4; margin-bottom: 12rpx; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
 .prompt-tags { margin-top: 4rpx; }
 

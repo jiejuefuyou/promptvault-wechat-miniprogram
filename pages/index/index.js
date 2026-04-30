@@ -1,5 +1,6 @@
 // pages/index/index.js
 const promptsData = require('../../utils/prompts.js');
+const adsConfig = require('../../utils/ads-config.js');
 
 Page({
   data: {
@@ -9,8 +10,8 @@ Page({
     promptsAll: [],
     promptsFiltered: [],
     favoriteSet: {},  // {title: true} for fast lookup
-    bannerAdUnitId: '', // user 在小程序后台拿 → 填进来
-    showBannerAd: false
+    bannerAdUnitId: adsConfig.BANNER_AD_UNIT_ID,
+    showBannerAd: adsConfig.enableBanner && !!adsConfig.BANNER_AD_UNIT_ID
   },
 
   onLoad() {

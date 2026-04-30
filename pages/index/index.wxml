@@ -55,6 +55,7 @@
       <!-- 主内容（点击进 detail）-->
       <view bindtap="onPromptTap" data-idx="{{index}}" class="prompt-main">
         <view class="prompt-title">{{item.title}}</view>
+        <view wx:if="{{item.desc_zh}}" class="prompt-desc-zh">{{item.desc_zh}}</view>
         <view class="prompt-preview muted">{{item.body}}</view>
         <view class="prompt-tags">
           <text
