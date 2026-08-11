@@ -1,36 +1,55 @@
-// pages/favorites/favorites.js
-const promptsData = require('../../utils/prompts.js');
+'use strict';
+
+const rawPrompts = require('../../utils/prompts.js');
+const core = require('../../utils/prompt-core.js');
+const { createStore } = require('../../utils/local-store.js');
+
+const BUILTINS = core.normalizeLibrary(rawPrompts, 'builtin');
+const localStore = createStore(wx);
 
 Page({
   data: {
-    favorites: []
+    favorites: [],
   },
 
   onShow() {
-    // 每次切到 tab 重新读 storage（用户在别处可能改了）
-    const favTitles = wx.getStorageSync('favorites') || [];
-    const customPrompts = wx.getStorageSync('customPrompts') || [];
-    const allPrompts = promptsData.concat(customPrompts);
-    const favorites = allPrompts.filter(p => favTitles.includes(p.title));
+    const customResult = localStore.loadCustomPrompts();
+    const favoriteResult = localStore.loadFavoriteIds();
+    if (!customResult.ok || !favoriteResult.ok) {
+      const error = !customResult.ok ? customResult.error : favoriteResult.error;
+      wx.showToast({ title: `收藏读取失败：${error}`, icon: 'none' });
+      this.setData({ favorites: [] });
+      return;
+    }
+
+    const all = core.mergeLibraries(BUILTINS, customResult.value);
+    const byId = {};
+    all.forEach((prompt) => { byId[prompt.id] = prompt; });
+    const favorites = favoriteResult.value.map((id) => byId[id]).filter(Boolean);
     this.setData({ favorites });
   },
 
   onPromptTap(e) {
-    const idx = e.currentTarget.dataset.idx;
-    const prompt = this.data.favorites[idx];
-    wx.setStorageSync('currentPrompt', prompt);
-    wx.navigateTo({ url: '/pages/detail/detail' });
+    const id = e.currentTarget.dataset.id;
+    const prompt = core.findPrompt(this.data.favorites, id);
+    if (!prompt) return;
+    wx.navigateTo({ url: `/pages/detail/detail?id=${encodeURIComponent(prompt.id)}` });
   },
 
   onUnfavorite(e) {
-    const title = e.currentTarget.dataset.title;
-    let favTitles = wx.getStorageSync('favorites') || [];
-    favTitles = favTitles.filter(t => t !== title);
-    wx.setStorageSync('favorites', favTitles);
-    this.setData({
-      favorites: this.data.favorites.filter(p => p.title !== title)
-    });
-    wx.showToast({ title: '溜了 👋', icon: 'none' });
+    const id = e.currentTarget.dataset.id;
+    const loaded = localStore.loadFavoriteIds();
+    if (!loaded.ok) {
+      wx.showToast({ title: `收藏读取失败：${loaded.error}`, icon: 'none' });
+      return;
+    }
+    const saved = localStore.saveFavoriteIds(loaded.value.filter((value) => value !== id));
+    if (!saved.ok) {
+      wx.showToast({ title: `移除失败：${saved.error}`, icon: 'none' });
+      return;
+    }
+    this.setData({ favorites: this.data.favorites.filter((prompt) => prompt.id !== id) });
+    wx.showToast({ title: '已移出收藏', icon: 'none' });
   },
 
   onGoToAll() {
@@ -39,21 +58,28 @@ Page({
 
   onClearAll() {
     wx.showModal({
-      title: '真的全部清掉？',
-      content: '收藏的小可爱们就再见了哦 😢',
-      confirmText: '清掉',
-      cancelText: '再想想',
-      success: res => {
-        if (res.confirm) {
-          wx.setStorageSync('favorites', []);
-          this.setData({ favorites: [] });
-          wx.showToast({ title: '清空啦 🧹', icon: 'none' });
+      title: '清空全部收藏？',
+      content: '只会清除收藏标记，不会删除自定义 Prompt。',
+      confirmText: '清空',
+      confirmColor: '#d73a49',
+      cancelText: '取消',
+      success: (result) => {
+        if (!result.confirm) return;
+        const saved = localStore.saveFavoriteIds([]);
+        if (!saved.ok) {
+          wx.showToast({ title: `清空失败：${saved.error}`, icon: 'none' });
+          return;
         }
-      }
+        this.setData({ favorites: [] });
+        wx.showToast({ title: '收藏已清空', icon: 'none' });
+      },
     });
   },
 
   onShareAppMessage() {
-    return { title: 'PromptVault — 113 AI prompts in your pocket', path: '/pages/index/index' };
-  }
+    return {
+      title: `PromptVault — ${getApp().globalData.promptCount} 条内置 AI Prompt`,
+      path: '/pages/index/index',
+    };
+  },
 });
