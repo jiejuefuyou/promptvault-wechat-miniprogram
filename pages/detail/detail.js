@@ -1,8 +1,26 @@
-// pages/detail/detail.js
-const adsConfig = require('../../utils/ads-config.js');
+'use strict';
 
-function hasChinese(s) {
-  return /[一-鿿]/.test(s || '');
+const rawPrompts = require('../../utils/prompts.js');
+const adsConfig = require('../../utils/ads-config.js');
+const core = require('../../utils/prompt-core.js');
+const { createStore } = require('../../utils/local-store.js');
+
+const BUILTINS = core.normalizeLibrary(rawPrompts, 'builtin');
+const localStore = createStore(wx);
+
+function hasChinese(value) {
+  return /[\u3400-\u9fff]/.test(value || '');
+}
+
+function decorateVariables(variables) {
+  const labels = { string: '单行文字', int: '整数', multiline: '多行文字' };
+  return (variables || []).map((variable) => ({
+    ...variable,
+    typeLabel: labels[variable.type] || labels.string,
+    defaultHint: variable.defaultValue === null
+      ? '留空会保留占位符'
+      : `默认：${variable.defaultValue || '空'}`,
+  }));
 }
 
 Page({
@@ -10,170 +28,193 @@ Page({
     prompt: null,
     variables: [],
     filledBody: '',
-    currentLang: 'zh',          // 'zh' or 'en' — 当前显示版本
-    hasBilingual: false,        // 是否有中英两版可切
+    currentLang: 'zh',
+    hasBilingual: false,
     rewardedAdReady: false,
     rewardedAdUnitId: adsConfig.REWARDED_AD_UNIT_ID,
-    rewardedEnabled: adsConfig.enableRewarded && !!adsConfig.REWARDED_AD_UNIT_ID,
-    isFavorited: false
+    rewardedEnabled: adsConfig.enableRewarded && Boolean(adsConfig.REWARDED_AD_UNIT_ID),
+    isFavorited: false,
   },
 
-  onLoad() {
-    const prompt = wx.getStorageSync('currentPrompt');
+  onLoad(options) {
+    this.promptId = decodeURIComponent(String(options && options.id || ''));
+    this.loadPrompt();
+  },
+
+  onUnload() {
+    if (!this.rewardedAd) return;
+    if (this._onAdLoad && this.rewardedAd.offLoad) this.rewardedAd.offLoad(this._onAdLoad);
+    if (this._onAdError && this.rewardedAd.offError) this.rewardedAd.offError(this._onAdError);
+    if (this._onAdClose && this.rewardedAd.offClose) this.rewardedAd.offClose(this._onAdClose);
+    this.rewardedAd = null;
+  },
+
+  loadPrompt() {
+    const customResult = localStore.loadCustomPrompts();
+    if (!customResult.ok) {
+      this.showLoadFailure(`本地 Prompt 读取失败：${customResult.error}`);
+      return;
+    }
+    const library = core.mergeLibraries(BUILTINS, customResult.value);
+    const prompt = core.findPrompt(library, this.promptId);
     if (!prompt) {
-      wx.showToast({ title: '加载失败', icon: 'none' });
+      this.showLoadFailure('这条 Prompt 已删除、数据已更新，或分享链接无效。');
       return;
     }
 
-    // 判断是否双语：body_zh 存在且与 body 不同 = 双语
-    const hasBilingual = !!prompt.body_zh && prompt.body_zh !== prompt.body;
-    // 默认显示中文版（如果有），其次回退到 body
-    const defaultLang = hasBilingual && hasChinese(prompt.body_zh) ? 'zh' : (hasChinese(prompt.body) ? 'zh' : 'en');
-    const initialBody = (defaultLang === 'zh' && prompt.body_zh) ? prompt.body_zh : prompt.body;
-
-    // 提取 {{xxx}} 变量（用 initialBody 提取）
-    const matches = initialBody.match(/\{\{([^}]+)\}\}/g) || [];
-    const uniqueKeys = [...new Set(matches.map(m => m.slice(2, -2).trim()))];
-    const variables = uniqueKeys.map(k => ({ key: k, value: '' }));
-
-    const favorites = wx.getStorageSync('favorites') || [];
-    const isFav = favorites.includes(prompt.title);
+    const hasBilingual = Boolean(prompt.body_zh && prompt.body_zh !== prompt.body);
+    const defaultLang = hasBilingual && hasChinese(prompt.body_zh)
+      ? 'zh'
+      : (hasChinese(prompt.body) ? 'zh' : 'en');
+    const variables = decorateVariables(core.variablesForLanguage(prompt, defaultLang, []));
+    const favoriteResult = localStore.loadFavoriteIds();
+    if (!favoriteResult.ok) console.warn('PromptVault favorite read failed:', favoriteResult.error);
 
     this.setData({
       prompt,
       variables,
-      filledBody: initialBody,
+      filledBody: core.renderPrompt(core.bodyForLanguage(prompt, defaultLang), core.valuesFromVariables(variables)),
       currentLang: defaultLang,
       hasBilingual,
-      isFavorited: isFav,
+      isFavorited: favoriteResult.ok && favoriteResult.value.indexOf(prompt.id) >= 0,
     });
 
-    this.loadRewardedAd();
+    const recent = localStore.recordRecent(prompt.id, Date.now());
+    if (!recent.ok) console.warn('PromptVault recent write failed:', recent.error);
+    if (this.data.rewardedEnabled) this.loadRewardedAd();
   },
 
-  // 中/英切换
+  showLoadFailure(content) {
+    wx.showModal({
+      title: '无法打开 Prompt',
+      content,
+      showCancel: false,
+      success: () => {
+        const pages = getCurrentPages();
+        if (pages.length > 1) wx.navigateBack();
+        else wx.switchTab({ url: '/pages/index/index' });
+      },
+    });
+  },
+
   onLangToggle() {
-    if (!this.data.hasBilingual) return;
+    if (!this.data.hasBilingual || !this.data.prompt) return;
     const nextLang = this.data.currentLang === 'zh' ? 'en' : 'zh';
-    this.setData({ currentLang: nextLang }, () => {
-      this.updateFilledBody();
+    const variables = decorateVariables(core.variablesForLanguage(
+      this.data.prompt,
+      nextLang,
+      this.data.variables
+    ));
+    const body = core.bodyForLanguage(this.data.prompt, nextLang);
+    this.setData({
+      currentLang: nextLang,
+      variables,
+      filledBody: core.renderPrompt(body, core.valuesFromVariables(variables)),
     });
-    wx.showToast({ title: nextLang === 'zh' ? '已切到中文版' : 'Switched to EN', icon: 'none', duration: 800 });
-  },
-
-  // 当前显示哪个 body
-  getCurrentBody() {
-    const { prompt, currentLang } = this.data;
-    if (currentLang === 'zh' && prompt.body_zh) return prompt.body_zh;
-    return prompt.body;
+    wx.showToast({ title: nextLang === 'zh' ? '已切到中文版' : 'Switched to English', icon: 'none', duration: 800 });
   },
 
   onVarInput(e) {
-    const key = e.currentTarget.dataset.key;
-    const value = e.detail.value;
-    const variables = this.data.variables.map(v =>
-      v.key === key ? { ...v, value } : v
+    const name = e.currentTarget.dataset.name;
+    const value = e.detail.value || '';
+    const variables = this.data.variables.map((variable) =>
+      variable.name === name ? { ...variable, value } : variable
     );
     this.setData({ variables }, () => this.updateFilledBody());
   },
 
   updateFilledBody() {
-    let body = this.getCurrentBody();
-    this.data.variables.forEach(v => {
-      const re = new RegExp(`\\{\\{${this.escapeRegex(v.key)}\\}\\}`, 'g');
-      body = body.replace(re, v.value || `{{${v.key}}}`);
-    });
-    this.setData({ filledBody: body });
-  },
-
-  escapeRegex(s) {
-    return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    if (!this.data.prompt) return;
+    const body = core.bodyForLanguage(this.data.prompt, this.data.currentLang);
+    this.setData({ filledBody: core.renderPrompt(body, core.valuesFromVariables(this.data.variables)) });
   },
 
   onCopy() {
+    const content = this.data.filledBody;
+    if (!content) return;
     wx.setClipboardData({
-      data: this.data.filledBody,
-      success: () => {
-        wx.showToast({ title: '📋 复制好了，去用吧！', icon: 'none' });
-      }
+      data: content,
+      success: () => wx.showToast({ title: '已复制到剪贴板', icon: 'success' }),
+      fail: (error) => {
+        console.warn('PromptVault clipboard write failed:', error);
+        wx.showModal({
+          title: '复制失败',
+          content: '微信没有允许写入剪贴板。可以长按预览文字手动复制后再试。',
+          showCancel: false,
+        });
+      },
     });
   },
 
-  // 激励视频：让用户主动看完得"专业增强 prompt"（增加 GPT-style 系统级 prefix）
   loadRewardedAd() {
-    if (!this.data.rewardedAdUnitId) return;
-    if (!wx.createRewardedVideoAd) {
-      console.log('SDK 不支持激励视频');
-      return;
-    }
-    this.rewardedAd = wx.createRewardedVideoAd({
-      adUnitId: this.data.rewardedAdUnitId
-    });
-    this.rewardedAd.onLoad(() => {
-      this.setData({ rewardedAdReady: true });
-    });
-    this.rewardedAd.onError(err => console.warn('激励视频错误', err));
-    this.rewardedAd.onClose(res => {
-      if (res && res.isEnded) {
-        this.applyEnhancement();
-      } else {
-        wx.showToast({ title: '🎬 看完才有升级版哦', icon: 'none' });
-      }
-    });
+    if (!this.data.rewardedEnabled || !wx.createRewardedVideoAd || this.rewardedAd) return;
+    this.rewardedAd = wx.createRewardedVideoAd({ adUnitId: this.data.rewardedAdUnitId });
+    this._onAdLoad = () => this.setData({ rewardedAdReady: true });
+    this._onAdError = (error) => {
+      this.setData({ rewardedAdReady: false });
+      console.warn('PromptVault rewarded ad error:', error);
+    };
+    this._onAdClose = (result) => {
+      if (result && result.isEnded) this.applyEnhancement();
+      else wx.showToast({ title: '完整看完后才会生成增强版', icon: 'none' });
+    };
+    this.rewardedAd.onLoad(this._onAdLoad);
+    this.rewardedAd.onError(this._onAdError);
+    this.rewardedAd.onClose(this._onAdClose);
   },
 
   onWatchAdEnhance() {
-    if (!this.data.rewardedAdUnitId) {
-      // 流量主未开通时，直接 enhance（开发期）
-      this.applyEnhancement();
+    if (!this.data.rewardedEnabled) {
+      wx.showToast({ title: '当前版本没有启用广告增强', icon: 'none' });
       return;
     }
     if (!this.rewardedAd) {
-      wx.showToast({ title: '⏳ 广告还在加载', icon: 'none' });
+      this.loadRewardedAd();
+      wx.showToast({ title: '广告正在准备，请稍后再试', icon: 'none' });
       return;
     }
-    this.rewardedAd.show().catch(() => {
-      this.rewardedAd.load().then(() => this.rewardedAd.show());
-    });
+    this.rewardedAd.show().catch(() => this.rewardedAd.load()
+      .then(() => this.rewardedAd.show())
+      .catch((error) => {
+        console.warn('PromptVault rewarded ad show failed:', error);
+        wx.showToast({ title: '广告暂时不可用，原版 Prompt 仍可直接复制', icon: 'none' });
+      }));
   },
 
   applyEnhancement() {
-    // 在 prompt 前后加专业级 prefix/suffix
-    const prefix = `You are an expert assistant. Be precise and concise. Skip preamble.\n\n`;
-    const suffix = `\n\nIf any part is ambiguous, ask 1 clarifying question before answering.`;
-    const enhanced = prefix + this.data.filledBody + suffix;
+    const prefix = 'You are an expert assistant. Be precise and concise. Skip preamble.\n\n';
+    const suffix = '\n\nIf any part is ambiguous, ask one clarifying question before answering.';
+    const enhanced = `${prefix}${this.data.filledBody}${suffix}`;
     wx.setClipboardData({
       data: enhanced,
-      success: () => {
-        wx.showModal({
-          title: '🎁 升级版搞定！',
-          content: '加了专家口吻 + 不懂会主动问你，粘贴到 ChatGPT/Claude 试试',
-          showCancel: false,
-          confirmText: '好嘞'
-        });
-      }
+      success: () => wx.showModal({
+        title: '增强版已复制',
+        content: '增加了精确、简洁和歧义先确认的要求。请粘贴到你选择的 AI 工具中检查后使用。',
+        showCancel: false,
+      }),
+      fail: () => wx.showToast({ title: '增强版生成了，但剪贴板写入失败', icon: 'none' }),
     });
   },
 
   onToggleFavorite() {
-    let favorites = wx.getStorageSync('favorites') || [];
-    if (this.data.isFavorited) {
-      favorites = favorites.filter(t => t !== this.data.prompt.title);
-    } else {
-      favorites.push(this.data.prompt.title);
+    if (!this.data.prompt) return;
+    const result = localStore.toggleFavorite(this.data.prompt.id);
+    if (!result.ok) {
+      wx.showToast({ title: `收藏没存上：${result.error}`, icon: 'none' });
+      return;
     }
-    wx.setStorageSync('favorites', favorites);
-    this.setData({ isFavorited: !this.data.isFavorited });
-    wx.showToast({
-      title: this.data.isFavorited ? '★ 收下啦！' : '溜了 👋',
-      icon: 'none'
-    });
+    this.setData({ isFavorited: result.favorited });
+    wx.showToast({ title: result.favorited ? '已收藏' : '已取消收藏', icon: 'none' });
   },
 
   onShareAppMessage() {
+    const prompt = this.data.prompt;
+    if (!prompt || prompt._custom) {
+      return { title: 'PromptVault — 本地 AI 提示词工具', path: '/pages/index/index' };
+    }
     return {
-      title: `PromptVault: ${this.data.prompt.title}`,
-      path: '/pages/index/index'
+      title: `PromptVault：${prompt.title}`,
+      path: `/pages/detail/detail?id=${encodeURIComponent(prompt.id)}`,
     };
-  }
+  },
 });
