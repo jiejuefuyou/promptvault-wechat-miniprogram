@@ -1,8 +1,13 @@
-// pages/index/index.js
-const promptsData = require('../../utils/prompts.js');
+'use strict';
+
+const rawPrompts = require('../../utils/prompts.js');
 const categories = require('../../utils/categories.js');
 const adsConfig = require('../../utils/ads-config.js');
+const core = require('../../utils/prompt-core.js');
+const { createStore } = require('../../utils/local-store.js');
 
+const BUILTINS = core.normalizeLibrary(rawPrompts, 'builtin');
+const localStore = createStore(wx);
 const SORT_OPTIONS = [
   { id: 'default', label: '默认' },
   { id: 'recent', label: '最近用过' },
@@ -10,241 +15,198 @@ const SORT_OPTIONS = [
   { id: 'alpha', label: '字母排序' },
 ];
 
+function favoriteMap(ids) {
+  const map = {};
+  (ids || []).forEach((id) => { map[id] = true; });
+  return map;
+}
+
 Page({
   data: {
     keyword: '',
-    activeCategory: '',  // '' = 全部
+    activeCategory: '',
     activeTag: '',
     sortBy: 'default',
-    viewMode: 'card',    // 'card' | 'compact'
-
+    viewMode: 'card',
     categories,
     sortOptions: SORT_OPTIONS,
-
     promptsAll: [],
     promptsFiltered: [],
-
-    // 当前 category 下的可用 tags
     availableTags: [],
-
     favoriteSet: {},
-    recentTitles: [],   // [{title, ts}]
-    searchHistory: [],  // ['kw1', 'kw2', ...]
-
+    recentPrompts: [],
+    searchHistory: [],
     bannerAdUnitId: adsConfig.BANNER_AD_UNIT_ID,
-    showBannerAd: adsConfig.enableBanner && !!adsConfig.BANNER_AD_UNIT_ID,
-
+    showBannerAd: adsConfig.enableBanner && Boolean(adsConfig.BANNER_AD_UNIT_ID),
     showSortMenu: false,
   },
 
-  onLoad() {
+  onShow() {
     this.loadAll();
   },
 
-  onShow() {
-    this.refreshUserState();
-    this.applyFilter();
-  },
-
   loadAll() {
-    const customPrompts = wx.getStorageSync('customPrompts') || [];
-    // custom prompts 默认归 biz-life 大类（除非他们有 category 字段）
-    customPrompts.forEach(p => { if (!p.category) p.category = 'biz-life'; });
-    const all = promptsData.concat(customPrompts);
-    this.setData({ promptsAll: all });
-    this.refreshUserState();
-    this.applyFilter();
+    const customResult = localStore.loadCustomPrompts();
+    const favoriteResult = localStore.loadFavoriteIds();
+    const recentResult = localStore.loadRecents();
+    const historyResult = localStore.loadSearchHistory();
+
+    this.reportStorageFailure(customResult, favoriteResult, recentResult, historyResult);
+    const customs = customResult.ok ? customResult.value : [];
+    const all = core.mergeLibraries(BUILTINS, customs);
+    this.setData({
+      promptsAll: all,
+      favoriteSet: favoriteMap(favoriteResult.ok ? favoriteResult.value : []),
+      recentPrompts: recentResult.ok ? recentResult.value : [],
+      searchHistory: historyResult.ok ? historyResult.value : [],
+    }, () => this.applyFilter());
   },
 
-  refreshUserState() {
-    const favTitles = wx.getStorageSync('favorites') || [];
-    const favoriteSet = {};
-    favTitles.forEach(t => { favoriteSet[t] = true; });
-
-    const recents = wx.getStorageSync('recentPrompts') || [];
-    const searchHistory = wx.getStorageSync('searchHistory') || [];
-
-    this.setData({ favoriteSet, recentTitles: recents, searchHistory });
+  reportStorageFailure(...results) {
+    const failed = results.find((result) => result && !result.ok);
+    const appError = getApp().globalData.storageError;
+    const error = failed && failed.error ? failed.error : appError;
+    if (!error || this._lastStorageError === error) return;
+    this._lastStorageError = error;
+    wx.showToast({ title: `本地数据读取失败：${error}`, icon: 'none', duration: 2600 });
   },
 
-  // === 分类切换 ===
   onCategoryTap(e) {
-    const id = e.currentTarget.dataset.id;
-    const next = this.data.activeCategory === id ? '' : id;
-    this.setData({ activeCategory: next, activeTag: '' });
-    this.applyFilter();
+    const id = e.currentTarget.dataset.id || '';
+    this.setData({
+      activeCategory: this.data.activeCategory === id ? '' : id,
+      activeTag: '',
+    }, () => this.applyFilter());
   },
 
-  // === 子标签切换 ===
   onTagTap(e) {
-    const tag = e.currentTarget.dataset.tag;
-    this.setData({ activeTag: this.data.activeTag === tag ? '' : tag });
-    this.applyFilter();
+    const tag = e.currentTarget.dataset.tag || '';
+    this.setData({ activeTag: this.data.activeTag === tag ? '' : tag }, () => this.applyFilter());
   },
 
-  // === 搜索 ===
   onSearchInput(e) {
-    this.setData({ keyword: e.detail.value });
-    this.applyFilter();
+    this.setData({ keyword: e.detail.value || '' }, () => this.applyFilter());
   },
 
   onSearchConfirm(e) {
-    const kw = (e.detail.value || '').trim();
-    if (!kw) return;
-    let history = this.data.searchHistory.filter(h => h !== kw);
-    history.unshift(kw);
-    history = history.slice(0, 5);
-    wx.setStorageSync('searchHistory', history);
+    const keyword = String(e.detail.value || '').trim().slice(0, 80);
+    if (!keyword) return;
+    const history = [keyword].concat(this.data.searchHistory.filter((item) => item !== keyword)).slice(0, 8);
+    const saved = localStore.saveSearchHistory(history);
+    if (!saved.ok) {
+      wx.showToast({ title: `搜索记录没存上：${saved.error}`, icon: 'none' });
+      return;
+    }
     this.setData({ searchHistory: history });
   },
 
   onSearchClear() {
-    this.setData({ keyword: '' });
-    this.applyFilter();
+    this.setData({ keyword: '' }, () => this.applyFilter());
   },
 
   onSearchHistoryTap(e) {
-    const kw = e.currentTarget.dataset.kw;
-    this.setData({ keyword: kw });
-    this.applyFilter();
+    this.setData({ keyword: e.currentTarget.dataset.kw || '' }, () => this.applyFilter());
   },
 
   onClearSearchHistory() {
-    wx.setStorageSync('searchHistory', []);
+    const saved = localStore.saveSearchHistory([]);
+    if (!saved.ok) {
+      wx.showToast({ title: `清空失败：${saved.error}`, icon: 'none' });
+      return;
+    }
     this.setData({ searchHistory: [] });
-    wx.showToast({ title: '清空啦 🧹', icon: 'none' });
+    wx.showToast({ title: '搜索记录已清空', icon: 'none' });
   },
 
-  // === 排序 ===
   onSortToggle() {
     this.setData({ showSortMenu: !this.data.showSortMenu });
   },
 
   onSortSelect(e) {
-    const sortBy = e.currentTarget.dataset.id;
-    this.setData({ sortBy, showSortMenu: false });
-    this.applyFilter();
+    this.setData({ sortBy: e.currentTarget.dataset.id || 'default', showSortMenu: false }, () => this.applyFilter());
   },
 
-  // === 视图模式 ===
   onViewModeToggle() {
     this.setData({ viewMode: this.data.viewMode === 'card' ? 'compact' : 'card' });
   },
 
-  // === 主过滤逻辑 ===
   applyFilter() {
-    const { keyword, activeCategory, activeTag, sortBy, promptsAll, favoriteSet, recentTitles } = this.data;
+    const { keyword, activeCategory, activeTag, sortBy, promptsAll, favoriteSet, recentPrompts } = this.data;
+    let categoryPool = activeCategory
+      ? promptsAll.filter((prompt) => prompt.category === activeCategory)
+      : promptsAll.slice();
 
-    let filtered = promptsAll;
-
-    // 1. 大类过滤
-    if (activeCategory) {
-      filtered = filtered.filter(p => p.category === activeCategory);
-    }
-
-    // 2. 提取该 category 下可用 tags（按出现次数）
     const tagCount = {};
-    filtered.forEach(p => (p.tags || []).forEach(t => {
-      tagCount[t] = (tagCount[t] || 0) + 1;
+    categoryPool.forEach((prompt) => (prompt.tags || []).forEach((tag) => {
+      tagCount[tag] = (tagCount[tag] || 0) + 1;
     }));
     const availableTags = Object.keys(tagCount)
-      .sort((a, b) => tagCount[b] - tagCount[a])
+      .sort((left, right) => tagCount[right] - tagCount[left] || left.localeCompare(right, 'zh-CN'))
       .slice(0, 20);
 
-    // 3. 子 tag 过滤
     if (activeTag) {
-      filtered = filtered.filter(p => (p.tags || []).includes(activeTag));
+      categoryPool = categoryPool.filter((prompt) => prompt.tags.indexOf(activeTag) >= 0);
     }
+    let filtered = core.searchPrompts(categoryPool, keyword);
 
-    // 4. 关键词搜索（含 desc_zh）
-    if (keyword) {
-      const kw = keyword.toLowerCase();
-      filtered = filtered.filter(p =>
-        p.title.toLowerCase().includes(kw) ||
-        p.body.toLowerCase().includes(kw) ||
-        (p.desc_zh && p.desc_zh.toLowerCase().includes(kw)) ||
-        (p.tags || []).some(t => t.toLowerCase().includes(kw))
-      );
-    }
-
-    // 5. 排序
     if (sortBy === 'recent') {
-      const recentMap = {};
-      recentTitles.forEach((r, i) => { recentMap[r.title] = i; });
-      filtered = [...filtered].sort((a, b) => {
-        const ai = recentMap[a.title] !== undefined ? recentMap[a.title] : 999;
-        const bi = recentMap[b.title] !== undefined ? recentMap[b.title] : 999;
-        return ai - bi;
+      const recentOrder = {};
+      recentPrompts.forEach((entry, index) => { recentOrder[entry.id] = index; });
+      filtered = filtered.slice().sort((left, right) => {
+        const leftIndex = recentOrder[left.id] === undefined ? Number.MAX_SAFE_INTEGER : recentOrder[left.id];
+        const rightIndex = recentOrder[right.id] === undefined ? Number.MAX_SAFE_INTEGER : recentOrder[right.id];
+        return leftIndex - rightIndex;
       });
     } else if (sortBy === 'favorite') {
-      filtered = [...filtered].sort((a, b) => {
-        const af = favoriteSet[a.title] ? 1 : 0;
-        const bf = favoriteSet[b.title] ? 1 : 0;
-        return bf - af;
-      });
+      filtered = filtered.slice().sort((left, right) => Number(Boolean(favoriteSet[right.id])) - Number(Boolean(favoriteSet[left.id])));
     } else if (sortBy === 'alpha') {
-      filtered = [...filtered].sort((a, b) => a.title.localeCompare(b.title, 'zh-CN'));
+      filtered = filtered.slice().sort((left, right) => left.title.localeCompare(right.title, 'zh-CN'));
     }
-    // default: 保持 promptsAll 的原顺序
 
     this.setData({ promptsFiltered: filtered, availableTags });
   },
 
-  // === 内联收藏切换 ===
   onToggleFavorite(e) {
-    const title = e.currentTarget.dataset.title;
-    let favTitles = wx.getStorageSync('favorites') || [];
-    const isFav = favTitles.includes(title);
-
-    if (isFav) {
-      favTitles = favTitles.filter(t => t !== title);
-    } else {
-      favTitles.push(title);
+    const id = e.currentTarget.dataset.id;
+    const result = localStore.toggleFavorite(id);
+    if (!result.ok) {
+      wx.showToast({ title: `收藏没存上：${result.error}`, icon: 'none' });
+      return;
     }
-    wx.setStorageSync('favorites', favTitles);
-
-    const favoriteSet = { ...this.data.favoriteSet };
-    if (isFav) delete favoriteSet[title]; else favoriteSet[title] = true;
-    this.setData({ favoriteSet });
-
-    wx.showToast({ title: isFav ? '溜了 👋' : '★ 收下啦！', icon: 'none', duration: 800 });
+    this.setData({ favoriteSet: favoriteMap(result.value) }, () => {
+      if (this.data.sortBy === 'favorite') this.applyFilter();
+    });
+    wx.showToast({ title: result.favorited ? '已收藏' : '已取消收藏', icon: 'none', duration: 800 });
   },
 
-  // === 进入 detail ===
   onPromptTap(e) {
-    const idx = e.currentTarget.dataset.idx;
-    const prompt = this.data.promptsFiltered[idx];
-
-    // 记录到 recent (max 30)
-    let recents = wx.getStorageSync('recentPrompts') || [];
-    recents = recents.filter(r => r.title !== prompt.title);
-    recents.unshift({ title: prompt.title, ts: Date.now() });
-    recents = recents.slice(0, 30);
-    wx.setStorageSync('recentPrompts', recents);
-
-    wx.setStorageSync('currentPrompt', prompt);
-    wx.navigateTo({ url: '/pages/detail/detail' });
+    const id = e.currentTarget.dataset.id;
+    const prompt = core.findPrompt(this.data.promptsFiltered, id);
+    if (!prompt) {
+      wx.showToast({ title: '这条 Prompt 已不存在', icon: 'none' });
+      return;
+    }
+    const recent = localStore.recordRecent(prompt.id, Date.now());
+    if (!recent.ok) console.warn('PromptVault recent history write failed:', recent.error);
+    wx.navigateTo({ url: `/pages/detail/detail?id=${encodeURIComponent(prompt.id)}` });
   },
 
-  // === 清除筛选 ===
   onClearAll() {
-    this.setData({ keyword: '', activeCategory: '', activeTag: '', sortBy: 'default' });
-    this.applyFilter();
+    this.setData({ keyword: '', activeCategory: '', activeTag: '', sortBy: 'default' }, () => this.applyFilter());
   },
 
-  // No-op for catch:tap on inner dialog (prevents bubbling to mask)
   onDialogStop() {},
 
   onShareAppMessage() {
     return {
-      title: 'PromptVault — 113 AI 提示词随身带',
+      title: `PromptVault — ${this.data.promptsAll.length} 条 AI 提示词随身带`,
       path: '/pages/index/index',
     };
   },
 
   onShareTimeline() {
     return {
-      title: 'PromptVault — 113 AI 提示词随身带（开源 / 离线 / 免费）',
+      title: `PromptVault — ${this.data.promptsAll.length} 条 AI 提示词（本地保存 / 开源）`,
       query: '',
     };
   },
