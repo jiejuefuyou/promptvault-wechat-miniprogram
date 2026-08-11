@@ -11,15 +11,30 @@
 .prompt-preview { font-size: 24rpx; line-height: 1.4; margin-bottom: 12rpx; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
 .prompt-tags { margin-top: 4rpx; }
 
-.card-actions { margin-top: 16rpx; padding-top: 12rpx; border-top: 1rpx solid #1f1f2e; text-align: right; }
-.del-btn { font-size: 24rpx; color: #ff6b6b; padding: 8rpx 16rpx; }
+.card-actions {
+  margin-top: 16rpx;
+  padding-top: 12rpx;
+  border-top: 1rpx solid #1f1f2e;
+  display: flex;
+  justify-content: flex-end;
+  gap: 8rpx;
+}
+.edit-btn,
+.del-btn {
+  font-size: 24rpx;
+  padding: 12rpx 18rpx;
+  min-width: 88rpx;
+  text-align: center;
+}
+.edit-btn { color: #b9a6ff; }
+.del-btn { color: #ff7f87; }
 
-.empty { text-align: center; padding: 200rpx 0; }
+.empty { text-align: center; padding: 160rpx 0 100rpx; }
 .empty-icon { font-size: 100rpx; color: #1f1f2e; line-height: 1; }
 .empty-text { font-size: 30rpx; color: #e6e6f0; margin-top: 24rpx; }
 .empty-hint { font-size: 24rpx; margin-top: 12rpx; }
+.empty-action { display: inline-block; margin-top: 28rpx; }
 
-/* 底部 关于 + 隐私 */
 .footer-links {
   margin-top: 60rpx;
   background: #12121a;
@@ -30,35 +45,31 @@
 .footer-link {
   display: flex;
   align-items: center;
-  padding: 24rpx 24rpx;
+  padding: 24rpx;
   border-top: 1rpx solid #1f1f2e;
 }
 .footer-link:first-child { border-top: 0; }
 .footer-link:active { background: rgba(108,75,224,0.08); }
-.link-icon {
-  font-size: 32rpx;
-  margin-right: 16rpx;
-}
-.link-text {
-  flex: 1;
-  font-size: 26rpx;
-  color: #e6e6f0;
-}
-.link-arrow {
-  color: #4a4a5a;
-  font-size: 32rpx;
-}
+.link-icon { font-size: 32rpx; margin-right: 16rpx; }
+.link-text { flex: 1; font-size: 26rpx; color: #e6e6f0; }
+.link-arrow { color: #4a4a5a; font-size: 32rpx; }
 
-/* Dialog —— 修：更宽 + scroll-view 长内容支持 + 输入框可点 */
 .dialog-mask {
-  position: fixed; left: 0; top: 0; right: 0; bottom: 0;
+  position: fixed;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
   background: rgba(0, 0, 0, 0.75);
-  display: flex; align-items: center; justify-content: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   z-index: 100;
 }
 .dialog {
-  width: 90%; max-width: 680rpx;
-  max-height: 80vh;
+  width: 90%;
+  max-width: 680rpx;
+  max-height: 82vh;
   background: #12121a;
   border: 1rpx solid #1f1f2e;
   border-radius: 16rpx;
@@ -74,33 +85,9 @@
   margin-bottom: 20rpx;
   text-align: center;
 }
-
-.dialog-scroll {
-  flex: 1;
-  overflow: hidden;
-  max-height: 60vh;
-}
-
-.field-label {
-  font-size: 26rpx;
-  color: #9b6cf0;
-  margin: 20rpx 0 8rpx;
-  font-weight: 500;
-}
-.field-input {
-  width: 100%;
-  background: #0a0a0f;
-  border: 2rpx solid #1f1f2e;
-  color: #e6e6f0;
-  padding: 20rpx 22rpx;
-  border-radius: 10rpx;
-  font-size: 28rpx;
-  box-sizing: border-box;
-  min-height: 80rpx;
-}
-.field-input:focus {
-  border-color: #6c4be0;
-}
+.dialog-scroll { flex: 1; overflow: hidden; max-height: 62vh; }
+.field-label { font-size: 26rpx; color: #9b6cf0; margin: 20rpx 0 8rpx; font-weight: 500; }
+.field-input,
 .field-textarea {
   width: 100%;
   background: #0a0a0f;
@@ -109,21 +96,14 @@
   padding: 20rpx 22rpx;
   border-radius: 10rpx;
   font-size: 28rpx;
-  min-height: 200rpx;
-  max-height: 400rpx;
   box-sizing: border-box;
-  line-height: 1.5;
 }
-.placeholder-grey {
-  color: #6a6a7a;
-  font-size: 26rpx;
-}
-.field-hint {
-  font-size: 22rpx;
-  margin-top: 6rpx;
-  line-height: 1.4;
-}
-
+.field-input { min-height: 80rpx; }
+.field-textarea { min-height: 220rpx; max-height: 420rpx; line-height: 1.5; }
+.field-input:focus,
+.field-textarea:focus { border-color: #6c4be0; }
+.placeholder-grey { color: #6a6a7a; font-size: 26rpx; }
+.field-hint { font-size: 22rpx; margin-top: 8rpx; line-height: 1.5; word-break: break-all; }
 .dialog-actions {
   margin-top: 24rpx;
   padding-top: 20rpx;
@@ -142,11 +122,5 @@
   color: white;
   min-width: 140rpx;
 }
-.dialog-btn.secondary {
-  background: transparent;
-  border: 2rpx solid #1f1f2e;
-  color: #8a8a9a;
-}
-.dialog-btn:active {
-  opacity: 0.7;
-}
+.dialog-btn.secondary { background: transparent; border: 2rpx solid #1f1f2e; color: #8a8a9a; }
+.dialog-btn:active { opacity: 0.7; }
