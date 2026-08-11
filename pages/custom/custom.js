@@ -127,11 +127,12 @@ Page({
       .map((tag) => tag.trim())
       .filter(Boolean);
     const current = this.data.customPrompts.slice();
+    const wasEditing = Boolean(this.data.editingId);
 
     try {
       let candidate;
       let next;
-      if (this.data.editingId) {
+      if (wasEditing) {
         const index = current.findIndex((prompt) => prompt.id === this.data.editingId);
         if (index < 0) throw new Error('要编辑的 Prompt 已不存在。');
         const existing = current[index];
@@ -169,7 +170,7 @@ Page({
         newBody: '',
         newTags: '',
       });
-      wx.showToast({ title: this.data.editingId ? '已更新' : '已保存', icon: 'success' });
+      wx.showToast({ title: wasEditing ? '已更新' : '已保存', icon: 'success' });
     } catch (error) {
       wx.showModal({
         title: '没有保存',
