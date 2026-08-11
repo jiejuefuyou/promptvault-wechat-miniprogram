@@ -53,6 +53,7 @@
         maxlength="12000"
         aria-label="填写 {{item.name}}"
       />
+      <view wx:if="{{item.error}}" style="font-size: 21rpx; color: #ff7f87; margin-top: 8rpx;">{{item.error}}</view>
     </view>
   </view>
 
@@ -62,16 +63,20 @@
   </view>
 
   <view class="actions">
-    <button class="btn" bindtap="onCopy">📋 复制 Prompt</button>
+    <button class="btn" bindtap="onCopy" disabled="{{hasVariableErrors}}">📋 复制 Prompt</button>
     <button
       wx:if="{{rewardedEnabled}}"
       class="btn secondary"
       bindtap="onWatchAdEnhance"
-      loading="{{!rewardedAdReady}}"
+      loading="{{rewardedAdState === 'loading'}}"
+      disabled="{{hasVariableErrors || rewardedAdState === 'loading'}}"
       style="margin-top: 16rpx;"
     >
-      🎁 看广告后复制增强版
+      {{rewardedAdState === 'error' ? '↻ 重新加载广告增强' : '🎁 看广告后复制增强版'}}
     </button>
+    <view wx:if="{{rewardedEnabled && rewardedAdState === 'error'}}" class="muted" style="font-size: 21rpx; margin-top: 8rpx; text-align: center;">
+      广告暂时不可用，原始 Prompt 仍可直接复制
+    </view>
     <button class="btn secondary" bindtap="onToggleFavorite" style="margin-top: 16rpx;">
       {{isFavorited ? '★ 已收藏' : '☆ 收藏这条'}}
     </button>
