@@ -64,7 +64,8 @@ for (const [name, source] of [
   assert.ok(!/wx\.(?:request|uploadFile|downloadFile|cloud\.)/.test(source), `${name} added an undeclared remote data path.`);
 }
 
-assert.match(index, /data\.id/);
+assert.match(index, /currentTarget\.dataset\.id/);
+assert.match(indexWxml, /data-id="\{\{item\.id\}\}"/);
 assert.match(indexWxml, /wx:key="id"/);
 assert.match(indexWxml, /favoriteSet\[item\.id\]/);
 assert.ok(!indexWxml.includes('data-title='));
