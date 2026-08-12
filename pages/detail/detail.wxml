@@ -1,6 +1,4 @@
-<!-- pages/detail/detail.wxml -->
 <view class="container" wx:if="{{prompt}}">
-
   <view class="header">
     <view class="title">{{prompt.title}}</view>
     <view wx:if="{{prompt.desc_zh}}" class="desc-zh">{{prompt.desc_zh}}</view>
@@ -8,7 +6,7 @@
       <view class="tags">
         <text wx:for="{{prompt.tags}}" wx:key="*this" class="tag">{{item}}</text>
       </view>
-      <view wx:if="{{hasBilingual}}" class="lang-toggle" bindtap="onLangToggle">
+      <view wx:if="{{hasBilingual}}" class="lang-toggle" bindtap="onLangToggle" aria-label="切换中英文版本">
         <text wx:if="{{currentLang === 'zh'}}">中 → EN</text>
         <text wx:else>EN → 中</text>
       </view>
@@ -16,43 +14,75 @@
   </view>
 
   <view wx:if="{{variables.length > 0}}" class="vars-section">
-    <view class="section-title">填一下这些 ✏️</view>
-    <view wx:for="{{variables}}" wx:key="key" class="var-row">
-      <view class="var-label">{{item.key}}</view>
-      <textarea
+    <view class="section-title">填写变量</view>
+    <view wx:for="{{variables}}" wx:key="name" class="var-row">
+      <view class="var-label">{{item.name}}</view>
+      <view class="muted" style="font-size: 21rpx; margin-bottom: 8rpx;">{{item.typeLabel}} · {{item.defaultHint}}</view>
+      <input
+        wx:if="{{item.type === 'int'}}"
         class="var-input"
-        placeholder="把 {{item.key}} 写在这里"
+        type="number"
+        placeholder="输入整数"
         placeholder-class="var-placeholder"
         value="{{item.value}}"
         bindinput="onVarInput"
-        data-key="{{item.key}}"
+        data-name="{{item.name}}"
+        aria-label="填写 {{item.name}}"
+      />
+      <textarea
+        wx:elif="{{item.type === 'multiline'}}"
+        class="var-input"
+        placeholder="填写 {{item.name}}，可输入多行"
+        placeholder-class="var-placeholder"
+        value="{{item.value}}"
+        bindinput="onVarInput"
+        data-name="{{item.name}}"
+        maxlength="12000"
         auto-height
+        aria-label="填写 {{item.name}}"
       ></textarea>
+      <input
+        wx:else
+        class="var-input"
+        type="text"
+        placeholder="填写 {{item.name}}"
+        placeholder-class="var-placeholder"
+        value="{{item.value}}"
+        bindinput="onVarInput"
+        data-name="{{item.name}}"
+        maxlength="12000"
+        aria-label="填写 {{item.name}}"
+      />
+      <view wx:if="{{item.error}}" style="font-size: 21rpx; color: #ff7f87; margin-top: 8rpx;">{{item.error}}</view>
     </view>
   </view>
 
   <view class="preview-section">
-    <view class="section-title">最终长这样 👇</view>
-    <view class="preview-body">{{filledBody}}</view>
+    <view class="section-title">最终内容</view>
+    <text class="preview-body" user-select="true">{{filledBody}}</text>
   </view>
 
   <view class="actions">
-    <button class="btn" bindtap="onCopy">📋 一键复制</button>
-    <button class="btn secondary" bindtap="onWatchAdEnhance" style="margin-top: 16rpx;">
-      🎁 看个广告，给你升级版（专家口吻）
-    </button>
+    <button class="btn" bindtap="onCopy" disabled="{{hasVariableErrors}}">📋 复制 Prompt</button>
     <button
+      wx:if="{{rewardedEnabled}}"
       class="btn secondary"
-      bindtap="onToggleFavorite"
+      bindtap="onWatchAdEnhance"
+      loading="{{rewardedAdState === 'loading'}}"
+      disabled="{{hasVariableErrors || rewardedAdState === 'loading'}}"
       style="margin-top: 16rpx;"
     >
-      {{isFavorited ? '★ 已经存起来了' : '☆ 收藏这条'}}
+      {{rewardedAdState === 'error' ? '↻ 重新加载广告增强' : '🎁 看广告后复制增强版'}}
+    </button>
+    <view wx:if="{{rewardedEnabled && rewardedAdState === 'error'}}" class="muted" style="font-size: 21rpx; margin-top: 8rpx; text-align: center;">
+      广告暂时不可用，原始 Prompt 仍可直接复制
+    </view>
+    <button class="btn secondary" bindtap="onToggleFavorite" style="margin-top: 16rpx;">
+      {{isFavorited ? '★ 已收藏' : '☆ 收藏这条'}}
     </button>
   </view>
 
   <view class="hint muted">
-    💡 这条 prompt 完全在你手机里运行，输入啥不上传任何地方。
-    "看广告升级版" 是给想支持作者的朋友用的，跳过也完全够用。
+    Prompt 内容和你填写的变量只在本机渲染。若本页显示广告按钮，广告由微信平台联网提供；不看广告也能完整复制原始 Prompt。
   </view>
-
 </view>

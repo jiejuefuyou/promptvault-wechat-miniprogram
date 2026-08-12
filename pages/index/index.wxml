@@ -1,12 +1,9 @@
 <view class="container">
-
-  <!-- Header -->
   <view class="header">
     <view class="title">提示词速查 ✨</view>
     <view class="subtitle muted">{{promptsAll.length}} 条 AI 提示词揣兜里，看完就能用</view>
   </view>
 
-  <!-- 搜索框 -->
   <view class="search-bar">
     <view class="search-input-wrap">
       <text class="search-icon">🔍</text>
@@ -18,12 +15,12 @@
         bindconfirm="onSearchConfirm"
         confirm-type="search"
         value="{{keyword}}"
+        aria-label="搜索提示词"
       />
-      <text wx:if="{{keyword}}" class="search-clear" bindtap="onSearchClear">×</text>
+      <text wx:if="{{keyword}}" class="search-clear" bindtap="onSearchClear" aria-label="清空搜索">×</text>
     </view>
   </view>
 
-  <!-- 搜索历史（搜索框聚焦但 keyword 空时显示） -->
   <view wx:if="{{searchHistory.length > 0 && !keyword}}" class="search-history">
     <view class="history-header">
       <text class="muted" style="font-size: 22rpx;">最近搜索</text>
@@ -40,7 +37,6 @@
     </view>
   </view>
 
-  <!-- 8 大类 -->
   <scroll-view scroll-x class="cat-bar" enhanced="{{true}}" show-scrollbar="{{false}}">
     <view class="cat-list">
       <view
@@ -64,7 +60,6 @@
     </view>
   </scroll-view>
 
-  <!-- 子标签（当前 category 下）-->
   <scroll-view wx:if="{{availableTags.length > 0}}" scroll-x class="tag-bar" enhanced="{{true}}" show-scrollbar="{{false}}">
     <view class="tag-list">
       <view
@@ -83,7 +78,6 @@
     </view>
   </scroll-view>
 
-  <!-- 工具栏：结果数 + 排序 + 视图切换 -->
   <view class="toolbar">
     <view class="result-meta muted">
       {{promptsFiltered.length}} 条
@@ -99,7 +93,6 @@
     </view>
   </view>
 
-  <!-- 排序菜单（弹窗）-->
   <view wx:if="{{showSortMenu}}" class="sort-menu-mask" catch:tap="onSortToggle">
     <view class="sort-menu" catch:tap="onDialogStop">
       <view
@@ -115,58 +108,46 @@
     </view>
   </view>
 
-  <!-- Prompt 列表 -->
   <view class="prompt-list {{viewMode}}">
     <view
       wx:for="{{promptsFiltered}}"
-      wx:key="title"
+      wx:key="id"
       class="card prompt-item"
     >
       <view
-        class="fav-toggle {{favoriteSet[item.title] ? 'is-fav' : ''}}"
+        class="fav-toggle {{favoriteSet[item.id] ? 'is-fav' : ''}}"
         catch:tap="onToggleFavorite"
-        data-title="{{item.title}}"
-      >{{favoriteSet[item.title] ? '★' : '☆'}}</view>
+        data-id="{{item.id}}"
+        aria-label="{{favoriteSet[item.id] ? '取消收藏' : '收藏'}} {{item.title}}"
+      >{{favoriteSet[item.id] ? '★' : '☆'}}</view>
 
-      <view bindtap="onPromptTap" data-idx="{{index}}" class="prompt-main">
+      <view bindtap="onPromptTap" data-id="{{item.id}}" class="prompt-main" aria-label="打开 {{item.title}}">
         <view class="prompt-title">{{item.title}}</view>
         <view wx:if="{{item.desc_zh}}" class="prompt-desc-zh">{{item.desc_zh}}</view>
         <view wx:if="{{viewMode === 'card'}}" class="prompt-preview muted">{{item.body}}</view>
         <view wx:if="{{viewMode === 'card'}}" class="prompt-tags">
-          <text
-            wx:for="{{item.tags}}"
-            wx:for-item="t"
-            wx:key="*this"
-            class="tag"
-          >{{t}}</text>
+          <text wx:for="{{item.tags}}" wx:for-item="t" wx:key="*this" class="tag">{{t}}</text>
         </view>
       </view>
     </view>
 
     <view wx:if="{{promptsFiltered.length === 0}}" class="empty muted">
       <view style="font-size: 80rpx; line-height: 1; margin-bottom: 16rpx;">🤔</view>
-      <view>这个角落空空的呢</view>
-      <view class="empty-hint" style="margin-top: 12rpx; font-size: 22rpx;">换个关键词试试看？</view>
-      <view class="empty-action" bindtap="onClearAll" style="display: inline-block; margin-top: 20rpx; padding: 14rpx 28rpx; background: #6c4be0; color: white; border-radius: 10rpx;">回到首页 →</view>
+      <view>没有匹配的提示词</view>
+      <view class="empty-hint" style="margin-top: 12rpx; font-size: 22rpx;">换个关键词，或清除筛选再试</view>
+      <view class="empty-action" bindtap="onClearAll" style="display: inline-block; margin-top: 20rpx; padding: 14rpx 28rpx; background: #6c4be0; color: white; border-radius: 10rpx;">清除筛选 →</view>
     </view>
   </view>
 
-  <!-- Footer -->
   <view class="footer">
-    <view class="footer-text muted">
-      🔒 完全离线，你输入的内容不会发任何地方
-    </view>
-    <view class="footer-text muted" style="margin-top: 12rpx;">
-      还有 iOS / 网页 / Chrome / VSCode 4 个版本 ↗ jiejuefuyou.github.io
-    </view>
+    <view class="footer-text muted">🔒 Prompt 内容和变量输入只在本机处理</view>
+    <view wx:if="{{showBannerAd}}" class="footer-text muted" style="margin-top: 12rpx;">广告组件由微信平台提供，会按微信的广告与隐私规则联网</view>
   </view>
 
-  <!-- Banner ad -->
   <ad
     wx:if="{{showBannerAd && bannerAdUnitId}}"
     unit-id="{{bannerAdUnitId}}"
     ad-type="banner"
     ad-theme="black"
   ></ad>
-
 </view>

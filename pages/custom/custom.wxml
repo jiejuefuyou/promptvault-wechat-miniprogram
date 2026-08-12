@@ -1,19 +1,14 @@
 <view class="container">
-
   <view class="header">
-    <view class="title">我自己的 prompt ✏️</view>
-    <view class="subtitle muted">攒了 {{customPrompts.length}} 个，加更多走起</view>
+    <view class="title">我自己的 Prompt ✏️</view>
+    <view class="subtitle muted">本机保存 {{customPrompts.length}} 条，可编辑、复制或删除</view>
   </view>
 
-  <button class="btn add-btn" bindtap="onAddTap">+ 加一条新的 prompt</button>
+  <button class="btn add-btn" bindtap="onAddTap">+ 新建 Prompt</button>
 
   <view wx:if="{{customPrompts.length > 0}}" class="prompt-list">
-    <view
-      wx:for="{{customPrompts}}"
-      wx:key="title"
-      class="card prompt-item"
-    >
-      <view bindtap="onPromptTap" data-idx="{{index}}">
+    <view wx:for="{{customPrompts}}" wx:key="id" class="card prompt-item">
+      <view bindtap="onPromptTap" data-id="{{item.id}}" aria-label="打开 {{item.title}}">
         <view class="prompt-title">{{item.title}}</view>
         <view class="prompt-preview muted">{{item.body}}</view>
         <view class="prompt-tags">
@@ -21,18 +16,19 @@
         </view>
       </view>
       <view class="card-actions">
-        <text class="del-btn" bindtap="onDelete" data-title="{{item.title}}">🗑 删除</text>
+        <text class="edit-btn" bindtap="onEdit" data-id="{{item.id}}">编辑</text>
+        <text class="del-btn" bindtap="onDelete" data-id="{{item.id}}">删除</text>
       </view>
     </view>
   </view>
 
   <view wx:elif="{{!showAddDialog}}" class="empty">
     <view class="empty-icon">📝</view>
-    <view class="empty-text">还没攒过自己的 prompt</view>
-    <view class="empty-hint muted">用得多的提示词写一遍存这，下次不用再想</view>
+    <view class="empty-text">还没有自己的 Prompt</view>
+    <view class="empty-hint muted">把经常重复写的提示词存下来，下次直接填变量</view>
+    <view class="empty-action btn" bindtap="onAddTap">新建第一条 →</view>
   </view>
 
-  <!-- 底部链接区 -->
   <view wx:if="{{!showAddDialog}}" class="footer-links">
     <view class="footer-link" bindtap="onGoAbout">
       <text class="link-icon">💜</text>
@@ -41,55 +37,57 @@
     </view>
     <view class="footer-link" bindtap="onGoPrivacy">
       <text class="link-icon">🔒</text>
-      <text class="link-text">隐私说明 (我们什么都不收集)</text>
+      <text class="link-text">隐私与广告说明</text>
       <text class="link-arrow">›</text>
     </view>
   </view>
 
-  <!-- Add dialog -->
   <view wx:if="{{showAddDialog}}" class="dialog-mask" catch:tap="onCancelAdd">
     <view class="dialog" catch:tap="onDialogStop">
-      <view class="dialog-title">写一条新 prompt ✏️</view>
+      <view class="dialog-title">{{editingId ? '编辑 Prompt' : '新建 Prompt'}}</view>
 
       <scroll-view scroll-y class="dialog-scroll">
-        <view class="field-label">起个名 *</view>
+        <view class="field-label">标题 *</view>
         <input
           class="field-input"
           value="{{newTitle}}"
           bindinput="onTitleInput"
-          placeholder="比如：写 SwiftUI todo demo"
+          placeholder="例如：写 SwiftUI Todo Demo"
           placeholder-class="placeholder-grey"
+          maxlength="120"
           confirm-type="next"
         />
 
-        <view class="field-label">prompt 内容 *</view>
+        <view class="field-label">Prompt 内容 *</view>
         <textarea
           class="field-textarea"
           value="{{newBody}}"
           bindinput="onBodyInput"
-          placeholder="比如：用 SwiftUI 写一个 [platform] 的 [feature] demo，不要外部依赖"
+          placeholder="写下完整提示词"
           placeholder-class="placeholder-grey"
           auto-height
-          maxlength="-1"
+          maxlength="12000"
           show-confirm-bar="{{false}}"
         />
-        <view class="field-hint muted">💡 想留空让用户填？用双花括号包变量名，比如 platform、feature</view>
+        <view class="field-hint muted">
+          变量格式：&#123;&#123;name&#125;&#125;、&#123;&#123;count:int=5&#125;&#125;、&#123;&#123;notes:multiline=&#125;&#125;
+        </view>
 
-        <view class="field-label">贴标签 (可不填)</view>
+        <view class="field-label">标签（最多 12 个）</view>
         <input
           class="field-input"
           value="{{newTags}}"
           bindinput="onTagsInput"
-          placeholder="比如：iOS, SwiftUI, Demo"
+          placeholder="例如：iOS, SwiftUI, Demo"
           placeholder-class="placeholder-grey"
+          maxlength="600"
         />
       </scroll-view>
 
       <view class="dialog-actions">
-        <view class="dialog-btn secondary" catch:tap="onCancelAdd">不存了</view>
-        <view class="dialog-btn" catch:tap="onSavePrompt">存下！</view>
+        <view class="dialog-btn secondary" catch:tap="onCancelAdd">取消</view>
+        <view class="dialog-btn" catch:tap="onSavePrompt">{{editingId ? '保存修改' : '保存'}}</view>
       </view>
     </view>
   </view>
-
 </view>

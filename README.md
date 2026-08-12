@@ -1,177 +1,139 @@
-# PromptVault — WeChat Miniprogram
+# PromptVault — 微信小程序
 
-> 100+ AI prompts in your WeChat. Offline. Zero data collection. Open source MIT.
->
-> 5th surface of the same product. Same `prompts.json` powers iOS / Web / Chrome / VSCode versions.
+微信里的本地 AI Prompt 工具：搜索内置库、填写 `{{variables}}`、预览并复制；也可以收藏和保存自己的 Prompt。
 
----
+## 1.1 数据完整性版本
 
-## 用户上线 5 步走（10 分钟）
+这一版本不再用标题充当收藏、删除和最近记录的主键。每条 Prompt 都有稳定 ID，并通过 storage v2 保存：
 
-### Step 1: 填 AppID
-
-打开 [project.config.json](project.config.json)，找到这一行：
-
-```json
-"appid": "REPLACE_WITH_YOUR_APPID",
+```text
+pv.customPrompts.v2
+pv.favoriteIds.v2
+pv.recentPrompts.v2
+pv.searchHistory.v1
 ```
 
-替换为你在 [微信公众平台 - 小程序后台](https://mp.weixin.qq.com/) → 设置 → 开发设置 找到的 **AppID（小程序 ID）**。
+首次启动会迁移旧版：
 
----
+- `customPrompts`
+- `favorites`（标题数组）
+- `recentPrompts`（标题记录）
+- `searchHistory`
 
-### Step 2: 微信开发者工具 import 项目
+只有所有 v2 写入成功后才删除旧 key 并标记迁移完成；写入失败会保留旧数据，下一次仍可重试。
 
-下载 [微信开发者工具](https://developers.weixin.qq.com/miniprogram/dev/devtools/download.html) 安装。
+## 功能
 
-打开后：
-- 点 "导入项目"
-- **项目目录**：选这个 `wechat-miniprogram` 文件夹
-- **AppID**：填你的（同 Step 1）
-- **项目名称**：PromptVault
+- 从实际 `utils/prompts.js` 动态读取内置数量
+- 分类、标签、全文搜索与排序
+- 收藏和最近打开记录
+- 自定义 Prompt：新建、编辑、删除
+- 中英双版本切换
+- typed variables：
 
-点确认。开发者工具会加载并显示模拟器。
-
----
-
-### Step 3: 测试本地运行
-
-在开发者工具里：
-- 看左侧模拟器：应该看到 PromptVault 首页 + 搜索框 + 100+ prompts 列表
-- 点任意 prompt → 进入详情页 → 填变量 → 复制
-- 收藏功能：点 "★" 切换
-- 测试搜索 / 标签筛选
-
-如果都 work → 准备上传。
-
----
-
-### Step 4: 上传体验版
-
-开发者工具点右上角 **上传**：
-- 版本号：1.0.0
-- 项目备注：`Initial release - 100+ AI prompts`
-- 点 "上传"
-
-上传完到[微信公众平台后台](https://mp.weixin.qq.com/) → 版本管理 → 开发版本 → 找到刚上传的 → 点 "提交审核"。
-
-填审核信息：
-- **小程序类目**：工具 / 实用工具
-- **审核备注**：「AI 提示词管理工具，上百条预置 prompt（持续更新） + {{变量}}替换 + 一键复制。完全离线运行，不上传任何用户数据。」
-- **测试账号**：不需要（无登录）
-
-提交后通常 1-3 天审核通过。
-
----
-
-### Step 5: 开通流量主（达到 1000 累计真实访问后）
-
-发布后引流：
-- 朋友圈分享
-- 微信群推
-- 小红书 / 即刻 推文配二维码
-- newsletter 末尾推
-
-**1000 累计真实访问后**，回[微信公众平台后台](https://mp.weixin.qq.com/) → 推广 → 流量主 → 申请开通。
-
-开通后拿到：
-- **Banner 广告 unitId** → 填进 `pages/index/index.js` 第 11 行 `bannerAdUnitId`
-- **激励视频 unitId** → 填进 `pages/detail/detail.js` 第 9 行 `rewardedAdUnitId`
-
-填完重新上传 → 提交审核 → 通过后**广告自动生效**，被动收入开始。
-
----
-
-## 预期收入数据
-
-| 阶段 | DAU | 月广告收入 |
-|---|---|---|
-| 启动期（1-3 月） | 100-500 | ¥50-300 |
-| 增长期（3-6 月） | 500-2000 | ¥300-1500 |
-| 成熟期（6-12 月） | 2000-10000 | ¥1500-7500 |
-
-**核心**：DAU 是关键变量。流量靠 (a) newsletter 引流 (b) 知乎 / 小红书带量 (c) 微信群分享 / 朋友圈传播。
-
----
-
-## 文件结构
-
-```
-wechat-miniprogram/
-├── app.js                    # App 入口，初始化 storage
-├── app.json                  # 小程序全局配置（页面注册、navbar、theme）
-├── app.wxss                  # 全局样式（dark theme）
-├── sitemap.json              # 微信搜索 indexing 规则
-├── project.config.json       # 项目配置（含 AppID）
-├── project.private.config.json
-├── pages/
-│   ├── index/                # 首页（搜索 + 标签 + prompt 列表）
-│   │   ├── index.js
-│   │   ├── index.json
-│   │   ├── index.wxml
-│   │   └── index.wxss
-│   └── detail/               # 详情页（变量替换 + 复制 + 激励视频）
-│       ├── detail.js
-│       ├── detail.json
-│       ├── detail.wxml
-│       └── detail.wxss
-└── utils/
-    └── prompts.json          # 上百条预置 prompt（持续更新）s（与 iOS / Web / Chrome / VSCode 同源）
+```text
+{{name}}
+{{language:string=Japanese}}
+{{count:int=5}}
+{{notes:multiline=}}
 ```
 
----
+- 变量默认值、空占位符保留、多行渲染
+- 预览文字可长按选择
+- 内置 Prompt 可通过稳定 ID 分享到详情页
+- 自定义 Prompt 只在当前设备存在，分享时回到公共首页
 
-## 与现有 4 surface 的关系
+## 本机数据与网络边界
 
-| Surface | 仓 | 状态 |
-|---|---|---|
-| iOS App | autoapp-prompt-vault | 等 Apple Developer 邮件 |
-| Web | jiejuefuyou.github.io/prompts.html | LIVE |
-| Chrome Extension | promptvault-chrome | published |
-| VSCode Extension | promptvault-vscode | published |
-| **WeChat Miniprogram** | **本仓** | **本次新增** |
+PromptVault 开发者不建立账号或云同步服务。以下内容只保存到当前设备的微信小程序 storage：
 
-**同源**：5 个 surface 共享 `prompts.json`。改一条 prompt 在源 + 推到所有 5 个仓即可全部同步。
+- 自定义 Prompt
+- 收藏 ID
+- 搜索历史
+- 最近打开记录
 
----
+Prompt 正文和变量输入在本机渲染，不发送到开发者服务器。
 
-## 隐私 + 安全
+小程序运行在微信客户端内，微信平台本身可能处理必要的设备、网络、运行日志和安全信息。仓库默认广告位 ID 为空；运营者启用微信流量主后：
 
-- **零数据收集**：脚本不发送任何网络请求，所有数据存本地（用户设备 / 微信 storage）
-- **离线运行**：除了流量主广告位（用户主动看广告）外，整个 App 不需要网络
-- **代码全开源**：MIT，`prompts.json` 也开源可二次使用
+- 首页 Banner 可能在页面打开时联网加载
+- 激励视频只在用户主动点击增强按钮后展示
+- 广告相关处理受微信平台规则约束
 
----
+原始 Prompt 的查看、填写和复制不要求观看广告。
 
-## 常见问题
+## 项目结构
 
-**Q：可以用个人小程序账号吗？**
-A：可以。本工具型小程序符合个人开发者类目（工具）。
+```text
+app.js
+app.json
+pages/
+  index/          搜索、分类、排序、收藏
+  detail/         typed variable、双语、预览、复制
+  favorites/      ID-based 收藏
+  custom/         事务式自定义 Prompt 管理
+  articles/
+  article-detail/
+  about/
+  privacy/
+utils/
+  prompts.js      内置 Prompt 数据
+  prompt-core.js  ID、校验、搜索、typed variable 渲染
+  local-store.js  storage v2 与旧版迁移
+  ads-config.js   默认空广告位配置
+tests/
+scripts/
+```
 
-**Q：审核会不会通不过？**
-A：通常 1-3 天通过。如果被拒：
-- 多半是因为分类不对（应选"工具" → "实用工具"，不是"教育"）
-- 或者描述含模糊词（避免说"AI 助手"，说"AI 提示词管理工具"）
+## 在微信开发者工具运行
 
-**Q：流量主开通后多久看到收入？**
-A：开通后立即开始累积。每月 1 号结算上月，提现到 user 微信账户。
+1. 在 `project.config.json` 填入你的小程序 AppID。
+2. 用微信开发者工具导入仓库根目录。
+3. 编译并检查：
+   - 首页搜索和排序
+   - 收藏、取消收藏、最近记录
+   - 新建、编辑、删除自定义 Prompt
+   - typed variable 与中英切换
+   - 剪贴板成功/失败路径
+   - 隐私页和未配置广告时的 UI
 
-**Q：广告会不会影响用户体验？**
-A：本设计 Banner 在底部 + 激励视频是用户主动触发（"看广告解锁专业版"）。不会强弹。
+广告位只应在运营主体完成相应平台配置和隐私披露后写入 `utils/ads-config.js`。
 
-**Q：能不能加付费功能？**
-A：个人账号不能直接收款（微信支付限制）。如要付费版，需企业账号 + 微信支付商户号。**当前版本只走流量主**。
+## 自动验证
 
----
+无第三方依赖：
 
-## 下一步（user ship 后 CC 可帮做）
+```bash
+npm run verify
+```
 
-- [ ] 设计分享卡片图（首页分享时显示）
-- [ ] 加 5-10 个新 prompt（"小程序专属"作 differentiator）
-- [ ] 加 "Prompt of the Day" 每日推送（需企业账号 + 模板消息）
-- [ ] 数据可视化：用户最常用哪些 tag
+验证内容包括：
 
----
+- 实际 Prompt 数据的 shape、限制、ID 与重复项
+- typed variables、默认值、多行和中英切换
+- storage v1 → v2 迁移
+- 写入失败不误删旧 key
+- 收藏/最近记录按 ID 去重
+- 删除自定义 Prompt 后清理引用
+- 页面不再写 `currentPrompt` 快照或硬编码数量
+- 广告 UI 与隐私说明一致
+- Prompt 页面没有未声明的远程请求路径
 
-_2026-04-30 by jiejuefuyou_
-_License: MIT — fork freely_
+GitHub Actions 使用 Node 22 执行同一合同。
+
+## 发布前人工 Gate
+
+源码合同不能替代微信真机和审核证据。发布前至少完成：
+
+- 微信开发者工具构建与真机预览
+- Android / iOS 微信基础库 smoke
+- storage 旧版迁移、容量不足与损坏数据
+- 分享内置详情、自定义 Prompt 不外泄
+- 剪贴板拒绝/失败
+- 广告关闭、Banner 和激励视频三种配置
+- 小程序隐私保护指引与实际 API/广告能力一致
+- 上传包体与平台代码质量检查
+
+## License
+
+代码使用 MIT License。内置 Prompt 内容可用于个人使用；商业再分发请先联系确认。

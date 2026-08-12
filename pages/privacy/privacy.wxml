@@ -1,59 +1,68 @@
 <view class="container">
-
   <view class="header">
-    <view class="title">🔒 隐私说明</view>
-    <view class="subtitle muted">最后更新 2026-04-30</view>
+    <view class="title">🔒 隐私与广告说明</view>
+    <view class="subtitle muted">最后更新 2026-08-11</view>
   </view>
 
   <view class="card hi-card">
-    <view class="hi-text">嗨 👋 简单说一句：</view>
-    <view class="hi-emphasis">我们什么都不收集。真的。</view>
+    <view class="hi-text">核心原则</view>
+    <view class="hi-emphasis">开发者不会上传、读取或出售你的 Prompt 内容与变量输入。</view>
   </view>
 
   <view class="section">
-    <view class="section-title">📦 你的数据存哪里</view>
-    <view class="section-body">所有数据只在你手机里（微信本地 wx.storage）：</view>
+    <view class="section-title">📦 本机保存的数据</view>
+    <view class="section-body">以下内容通过微信小程序本地 storage 保存在当前设备：</view>
     <view class="bullets">
-      <view class="bullet">收藏的 prompt</view>
-      <view class="bullet">你自己写的 prompt</view>
+      <view class="bullet">收藏的 Prompt ID</view>
+      <view class="bullet">你自己创建或编辑的 Prompt</view>
       <view class="bullet">搜索历史</view>
-      <view class="bullet">最近用过的记录</view>
+      <view class="bullet">最近打开记录</view>
     </view>
-    <view class="section-body strong">卸载小程序 = 全部清空。我们看不到任何东西。</view>
+    <view class="section-body strong">这些数据不发送到开发者服务器，也不会跨设备同步。</view>
+    <view class="section-body">清理微信缓存、删除小程序数据或卸载相关客户端可能清除本地内容。重要的自定义 Prompt 请另行备份。</view>
   </view>
 
   <view class="section">
-    <view class="section-title">🚫 我们不做这些</view>
+    <view class="section-title">🚫 开发者不会做的事</view>
     <view class="bullets bullets-x">
-      <view class="bullet">不要你的位置 / 相机 / 麦克风权限</view>
-      <view class="bullet">不收集设备信息 / 微信身份</view>
-      <view class="bullet">不会把你输入的内容发给任何服务器</view>
-      <view class="bullet">不接任何第三方 SDK（除微信广告 SDK，仅在你点「看广告升级」时调用）</view>
+      <view class="bullet">不建立 PromptVault 账号，不要求微信登录</view>
+      <view class="bullet">不申请位置、相机或麦克风权限</view>
+      <view class="bullet">不把 Prompt、变量、收藏或搜索记录发送给开发者</view>
+      <view class="bullet">不接开发者自建 analytics、广告追踪或远程 Prompt 服务</view>
     </view>
+  </view>
+
+  <view class="section">
+    <view class="section-title">💬 微信平台边界</view>
+    <view class="section-body">小程序运行在微信客户端中。微信可能根据其平台规则处理必要的设备、网络、运行日志和安全信息；这些平台处理不由 PromptVault 开发者读取或控制。</view>
+    <view class="section-body">复制操作会在你主动点击按钮后调用微信剪贴板 API。复制失败时，小程序会显示错误，不会把文本改发到服务器。</view>
   </view>
 
   <view class="section">
     <view class="section-title">📺 关于广告</view>
-    <view class="section-body">详情页有「看广告解锁升级版」按钮——你主动点了才会出广告。</view>
-    <view class="section-body">这个广告由微信平台提供（流量主），数据收集行为受微信隐私协议约束。我们不读取也不转发任何广告相关数据，纯粹是给愿意支持作者的朋友一个选项。</view>
-    <view class="section-body strong">不点 = 完全不会出现广告。</view>
+    <view class="section-body">仓库默认不填写广告位 ID。运营者配置流量主后：</view>
+    <view class="bullets">
+      <view class="bullet">首页 Banner 可能在页面打开时由微信广告组件联网加载</view>
+      <view class="bullet">激励视频只在你主动点击增强按钮后展示</view>
+      <view class="bullet">广告数据处理受微信广告与隐私规则约束</view>
+    </view>
+    <view class="section-body strong">原始 Prompt 的查看、填写和复制不要求观看广告。</view>
   </view>
 
   <view class="section">
-    <view class="section-title">📬 联系我</view>
-    <view class="section-body">有问题 / 建议 / 投诉，邮件即可：</view>
+    <view class="section-title">📬 联系方式</view>
+    <view class="section-body">隐私问题、建议或投诉：</view>
     <view class="contact-row" bindtap="onCopyEmail">
       <text class="contact-label">📧 邮箱</text>
       <text class="contact-value">jiejuefuyou@gmail.com</text>
     </view>
     <view class="contact-row">
       <text class="contact-label">⏱ 回复</text>
-      <text class="contact-value-plain">通常 24-48 小时内</text>
+      <text class="contact-value-plain">通常 24–48 小时内</text>
     </view>
   </view>
 
   <view class="footer-note muted">
-    本说明可能会更新；重大变化会在小程序首次打开时弹窗告知。
+    如果未来增加账号、云同步或新的第三方服务，会先更新本说明和微信小程序隐私保护指引，再上线相关功能。
   </view>
-
 </view>

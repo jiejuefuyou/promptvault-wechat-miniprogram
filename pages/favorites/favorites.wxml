@@ -1,17 +1,12 @@
 <view class="container">
-
   <view class="header">
     <view class="title">★ 我的最爱</view>
-    <view class="subtitle muted">收了 {{favorites.length}} 个，要常用噢</view>
+    <view class="subtitle muted">收藏了 {{favorites.length}} 条 Prompt</view>
   </view>
 
   <view wx:if="{{favorites.length > 0}}" class="prompt-list">
-    <view
-      wx:for="{{favorites}}"
-      wx:key="title"
-      class="card prompt-item"
-    >
-      <view bindtap="onPromptTap" data-idx="{{index}}">
+    <view wx:for="{{favorites}}" wx:key="id" class="card prompt-item">
+      <view bindtap="onPromptTap" data-id="{{item.id}}" aria-label="打开 {{item.title}}">
         <view class="prompt-title">{{item.title}}</view>
         <view wx:if="{{item.desc_zh}}" class="prompt-desc-zh">{{item.desc_zh}}</view>
         <view class="prompt-preview muted">{{item.body}}</view>
@@ -20,20 +15,19 @@
         </view>
       </view>
       <view class="card-actions">
-        <text class="unfav-btn" bindtap="onUnfavorite" data-title="{{item.title}}">移除</text>
+        <text class="unfav-btn" bindtap="onUnfavorite" data-id="{{item.id}}">移除</text>
       </view>
     </view>
 
     <view class="clear-all" bindtap="onClearAll">
-      <text class="clear-btn">🧹 全部清掉</text>
+      <text class="clear-btn">🧹 清空收藏</text>
     </view>
   </view>
 
   <view wx:else class="empty">
     <view class="empty-icon">💝</view>
-    <view class="empty-text">这里还空着呢～</view>
-    <view class="empty-hint muted">去「速查」tab 看见喜欢的，点右上角 ☆ 收下</view>
-    <view class="empty-action btn" bindtap="onGoToAll">逛逛去 →</view>
+    <view class="empty-text">还没有收藏</view>
+    <view class="empty-hint muted">在「速查」中点 ☆，常用 Prompt 就会出现在这里</view>
+    <view class="empty-action btn" bindtap="onGoToAll">去看看 →</view>
   </view>
-
 </view>

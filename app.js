@@ -1,17 +1,27 @@
-// app.js
-const prompts = require('./utils/prompts.js');
+'use strict';
+
+const rawPrompts = require('./utils/prompts.js');
 const articles = require('./utils/articles.js');
+const core = require('./utils/prompt-core.js');
+const { createStore } = require('./utils/local-store.js');
+
+const builtins = core.normalizeLibrary(rawPrompts, 'builtin');
+const localStore = createStore(wx);
 
 App({
   onLaunch() {
-    // 初始化收藏 + 自定义 prompts storage
-    if (!wx.getStorageSync('favorites')) wx.setStorageSync('favorites', []);
-    if (!wx.getStorageSync('customPrompts')) wx.setStorageSync('customPrompts', []);
+    const migration = localStore.migrateLegacy(builtins, Date.now());
+    if (!migration.ok) {
+      this.globalData.storageError = migration.error || '本地数据迁移失败';
+      console.error('PromptVault local storage migration failed:', migration.error);
+    }
   },
+
   globalData: {
-    version: '1.0.12',
-    promptCount: prompts.length,        // 动态：随 prompts.js 自动算
+    version: '1.1.0',
+    promptCount: builtins.length,
     articleCount: articles.articles.length,
-    surfaces: 5,                        // iOS / Web / Chrome / VSCode / 微信小程序
+    surfaces: 5,
+    storageError: '',
   },
 });
